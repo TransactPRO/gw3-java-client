@@ -1,19 +1,17 @@
 import com.gateway.Gateway;
-import com.gateway.model.Response;
 import com.gateway.model.request.Authorization;
 import com.gateway.model.request.Data;
 import com.gateway.model.Request;
-import com.gateway.model.request.data.Command;
-import com.gateway.model.request.data.General;
-import com.gateway.model.request.data.Money;
-import com.gateway.model.request.data.PaymentMethod;
+import com.gateway.operation.transaction.Sms;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import javax.validation.*;
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -70,8 +68,19 @@ public class Main {
             "    }";
 
     public static void main(String[] args) {
-        System.out.println("============== START ==================");
-//        Gateway gw = new Gateway("http://google.com", new Authorization());
+        System.out.println("================== START ==================");
+        Gateway gw = new Gateway("http://uriel.vg.fpngw3.env/v3.0");
+        gw.getAuthorization()
+                .setAccountGuid("f44e7b6e-4bf1-419c-bb32-689a36a51e51")
+                .setSecretKey("3b13d5a0cc1f46a88230d638e1069e6e");
+
+        Sms sms = new Sms();
+
+        try {
+            gw.process(sms);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 /*        Request request = new Request();
         request.setAuthorization(new Authorization()
@@ -79,32 +88,53 @@ public class Main {
                 .setSecretKey("3b13d5a0cc1f46a88230d638e1069e6e"))
         .setData(new Data().setCommand(new Command()));
                 System.out.println(gson.toJson(request));*/
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
-                .create();
-
-
-        HttpClient httpClient = HttpClientBuilder.create().build();
-
-        Authorization auth = new Authorization()
-                .setAccountGuid("c5a39508-e00d-42ae-a961-756805ec9e46")
-                .setSecretKey("8XY0ujBrVSkNpLeZ3GKAJPRniOxFza9D");
-        Gateway gw = new Gateway("http://uriel.vg.fpngw3.env/v3.0", auth, httpClient);
-
-        Data data = gson.fromJson(dataString, Data.class);
-
-        data.getSystem().setUserIp("8.8.8.8");
-        data.getGeneral().getOrder().setMerchantTransactionId(UUID.randomUUID().toString());
-//        data.getGeneral().getOrder().setMerchantUrl("tran");
-
-        Request request = new Request()
-                .setData(data);
-
-
-        try {
-            gw.request(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        Gson gson = new GsonBuilder()
+//                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
+//                .create();
+//
+//
+//        HttpClient httpClient = HttpClientBuilder.create().build();
+//
+//        Authorization auth = new Authorization()
+//                .setAccountGuid("c5a39508-e00d-42ae-a961-756805ec9e46")
+//                .setSecretKey("8XY0ujBrVSkNpLeZ3GKAJPRniOxFza9D");
+//        Gateway gw = new Gateway("http://uriel.vg.fpngw3.env/v3.0", auth, httpClient);
+//
+//        Data data = gson.fromJson(dataString, Data.class);
+//
+//        data.getSystem().setUserIp("8.8.8.8");
+//        data.getGeneral().getOrder().setMerchantTransactionId(UUID.randomUUID().toString());
+////        data.getGeneral().getOrder().setMerchantUrl("tran");
+//
+//        Request request = new Request()
+//                .setData(data);
+//
+//        request.getData().getMoney().setAmount(null);
+//
+//        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+//  //      Configuration<?> config = Validation.byDefaultProvider().configure();
+//
+////        ValidatorFactory validatorFactory = config.buildValidatorFactory();
+//
+//        Validator validator = validatorFactory.getValidator();
+////        validatorFactory.close();
+//        Set<ConstraintViolation<Request>> violations = validator.validate(request);
+//
+//        if (violations.size() == 0) {
+//            System.out.println("No violations.");
+//        } else {
+//            System.out.printf("%s violations:%n", violations.size());
+////            violations.stream()
+////                    .forEach(ValidAnnotationExample::printError);
+//        }
+//        validator.forExecutables()
+//        SmsValidation sms = new SmsValidation();
+//        sms.setRequest(request);
+//        sms.isValid(validator);
+//        try {
+//            gw.request(request);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

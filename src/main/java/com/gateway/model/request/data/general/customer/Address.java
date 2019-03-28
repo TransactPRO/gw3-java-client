@@ -1,5 +1,10 @@
 package com.gateway.model.request.data.general.customer;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Address {
     private String country;
     private String state;

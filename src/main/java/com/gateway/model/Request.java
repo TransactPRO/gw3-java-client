@@ -3,30 +3,23 @@ package com.gateway.model;
 import com.gateway.model.request.Authorization;
 import com.gateway.model.request.Data;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.lang.reflect.Type;
+import javax.validation.Valid;
 
 public class Request {
 
     @SerializedName("auth-data")
+    @Valid
+    @Setter
     private Authorization authorization;
+    @Valid
+    @Getter
+    @Setter
     private Data data;
 
-    public Authorization getAuthorization() {
-        return authorization;
-    }
-
-    public Request setAuthorization(Authorization authorization) {
-        this.authorization = authorization;
-        return this;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public Request setData(Data data) {
-        this.data = data;
-        return this;
+    public Request() {
+        this.data = new Data();
     }
 }

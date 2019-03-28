@@ -6,60 +6,34 @@ import com.gateway.model.request.data.Money;
 import com.gateway.model.request.data.PaymentMethod;
 import com.gateway.model.request.data.System;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.Valid;
+
+@Getter
+@Setter
 public class Data {
+    @Valid
     @SerializedName("command-data")
     private Command command;
+    @Valid
     @SerializedName("general-data")
     private General general;
+    @Valid
     @SerializedName("payment-method-data")
     private PaymentMethod paymentMethod;
+    @Valid
     @SerializedName("money-data")
     private Money money;
+    @Valid
     private System system;
 
-    public Command getCommand() {
-        return command;
-    }
-
-    public Data setCommand(Command command) {
-        this.command = command;
-        return this;
-    }
-
-    public General getGeneral() {
-        return general;
-    }
-
-    public Data setGeneral(General general) {
-        this.general = general;
-        return this;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public Data setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-        return this;
-    }
-
-    public Money getMoney() {
-        return money;
-    }
-
-    public Data setMoney(Money money) {
-        this.money = money;
-        return this;
-    }
-
-    public System getSystem() {
-        return system;
-    }
-
-    public Data setSystem(System system) {
-        this.system = system;
-        return this;
+    public Data() {
+        command = new Command();
+        general = new General();
+        paymentMethod = new PaymentMethod();
+        money = new Money();
+        system = new System();
     }
 }

@@ -3,85 +3,102 @@ package com.gateway;
 import com.gateway.model.Request;
 import com.gateway.model.Response;
 import com.gateway.model.request.Authorization;
+import com.gateway.operation.Operation;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-
-import static org.apache.http.protocol.HTTP.USER_AGENT;
+import java.util.Set;
 
 
 public class Gateway {
 
-    private final Gson gson;
     private String url;
     private Authorization authorization;
     private HttpClient httpClient;
+    private Gson gson;
+    private Validator validator;
 
-    public Gateway(String url, Authorization authorization, HttpClient httpClient) {
+    public Gateway(String url) {
         this.url = url;
-        this.authorization = authorization;
-        this.httpClient = httpClient;
-        this.gson = new GsonBuilder()
+        this.authorization = new Authorization();
+        buildHttpClient();
+        buildJsonParser();
+        buildValidator();
+    }
+
+    private void buildHttpClient() {
+        httpClient = HttpClientBuilder
+                .create()
+                .build();
+    }
+
+    private void buildValidator() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+        validatorFactory.close();
+    }
+
+    private void buildJsonParser() {
+        gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
                 .create();
     }
 
-    public void request(Request rr) throws IOException {
-        rr.setAuthorization(authorization);
-        String postBody = gson.toJson(rr);
-        HttpPost request = new HttpPost(url + "/sms");
-        request.addHeader("User-Agent", USER_AGENT);
-        request.setEntity(new StringEntity(postBody));
+    private Set<ConstraintViolation<Request>> validate(Operation operation) {
+        return validator.validate(operation.getRequest(), operation.getValidationGroups());
+    }
 
+    public void process(Operation operation) throws IOException {
+        Set<ConstraintViolation<Request>> constraintViolations = validate(operation);
 
-        HttpResponse response = httpClient.execute(request);
+        if (constraintViolations.size() > 0) {
+            //got errors
+            //TODO think what to respond
+            System.out.println(String.format("Кол-во ошибок: %d", constraintViolations.size()));
+            for (ConstraintViolation<Request> cv : constraintViolations)
+                System.out.println(String.format(
+                        "Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
+                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
+            return;
+        }
+        operation.getRequest().setAuthorization(authorization);
 
-        System.out.println("Response Code : "
-                + response.getStatusLine().getStatusCode());
+        HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
+        String responseBody = EntityUtils.toString(httpResponse.getEntity());
 
-        String body = EntityUtils.toString(response.getEntity());
-        //System.out.println("Response Body : " + body);
+        System.out.println(responseBody);
 
-        Response response1 = gson.fromJson(body, Response.class);
+        if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            operation.setResponse(gson.fromJson(responseBody, Response.class));
+        }
+        return;
+    }
 
-        System.out.println("Response Body : " + body);
-//        System.out.println("Response Body : "+ body);
-//        BufferedReader rd = new BufferedReader(
-//                new InputStreamReader(response.getEntity().getContent()));
-//
-//        StringBuffer result = new StringBuffer();
-//        String line = "";
-//        while ((line = rd.readLine()) != null) {
-//            result.append(line);
-//        }
+    private HttpUriRequest buildRequest(Operation operation) {
+        StringEntity requestBody = new StringEntity(gson.toJson(operation.getRequest()), "UTF-8");
 
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(url))
-//                .build();
-//        HttpResponse<String> response = null;
-//
-//        try {
-//            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println(response.statusCode());
-//        System.out.println(response.body());
+        return RequestBuilder
+                .create(operation.getRequestMethod())
+                .setUri(url + operation.getRequestUri())
+                .setEntity(requestBody)
+                .build();
+    }
+
+    public Authorization getAuthorization() {
+        return authorization;
     }
 }
