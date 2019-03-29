@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class MotoDms {
+import com.gateway.operation.Operation;
+
+public class MotoDms extends Operation {
 
     public final String uri = "/moto/dms";
 

@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class Cancel {
+import com.gateway.operation.Operation;
+
+public class Cancel extends Operation {
 
     public final String uri = "/cancel";
 

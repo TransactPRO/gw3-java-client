@@ -11,6 +11,7 @@ public class Sms extends Operation {
         return uri;
     }
 
+    @Override
     public Class<?> getValidationGroups() {
         return SmsValidation.class;
     }

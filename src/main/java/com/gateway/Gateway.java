@@ -61,7 +61,7 @@ public class Gateway {
         return validator.validate(operation.getRequest(), operation.getValidationGroups());
     }
 
-    public void process(Operation operation) throws IOException, ValidationException {
+    public void process(Operation operation) throws ValidationException, IOException {
         Set<ConstraintViolation<Request>> constraintViolations = validate(operation);
 
         if (!constraintViolations.isEmpty()) {

@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class InitRecurrentDms {
+import com.gateway.operation.Operation;
+
+public class InitRecurrentDms extends Operation {
 
     public final String uri = "/recurrent/dms/init";
 

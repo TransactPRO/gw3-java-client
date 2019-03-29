@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class Credit {
+import com.gateway.operation.Operation;
+
+public class Credit extends Operation {
 
     public final String uri = "/credit";
 

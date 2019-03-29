@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class DmsCharge {
+import com.gateway.operation.Operation;
+
+public class DmsCharge extends Operation {
 
     public final String uri = "/charge-dms";
 

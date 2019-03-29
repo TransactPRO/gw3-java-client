@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class B2P {
+import com.gateway.operation.Operation;
+
+public class B2P extends Operation {
 
     public final String uri = "/b2p";
 

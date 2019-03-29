@@ -3,6 +3,8 @@ import com.gateway.model.request.Authorization;
 import com.gateway.model.request.Data;
 import com.gateway.model.Request;
 import com.gateway.model.request.data.general.customer.Address;
+import com.gateway.operation.transaction.DmsHold;
+import com.gateway.operation.transaction.Refund;
 import com.gateway.operation.transaction.Sms;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -46,6 +48,22 @@ public class Main {
         } catch (ValidationException e) {
             e.printStackTrace();
         }
+
+        DmsHold dmsHold = new DmsHold();
+        try {
+            gw.process(dmsHold);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Refund refund = new Refund();
+        try {
+            gw.process(refund);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public static Sms createSmsTransaction() {

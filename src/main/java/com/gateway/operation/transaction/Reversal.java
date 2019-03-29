@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class Reversal {
+import com.gateway.operation.Operation;
+
+public class Reversal extends Operation {
 
     public final String uri = "/reversal";
 

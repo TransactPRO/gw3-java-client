@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class Refund {
+import com.gateway.operation.Operation;
+
+public class Refund extends Operation {
 
     public final String uri = "/refund";
 

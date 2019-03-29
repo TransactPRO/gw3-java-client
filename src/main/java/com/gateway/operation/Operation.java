@@ -4,6 +4,8 @@ package com.gateway.operation;
 import com.gateway.model.Request;
 import com.gateway.model.Response;
 
+import javax.validation.groups.Default;
+
 public abstract class Operation implements Operable {
 
     protected Request request;
@@ -14,9 +16,6 @@ public abstract class Operation implements Operable {
         request = new Request();
     }
 
-    public String getMethod() {
-        return method;
-    }
 
     public Request getRequest() {
         return request;
@@ -31,12 +30,21 @@ public abstract class Operation implements Operable {
         return response;
     }
 
+    public Operation setResponse(Response response) {
+        this.response = response;
+        return this;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
     public boolean isSuccessful() {
         return this.response.getError() == null;
     }
 
-    public Operation setResponse(Response response) {
-        this.response = response;
-        return this;
+    @Override
+    public Class<?> getValidationGroups() {
+        return Default.class;
     }
 }

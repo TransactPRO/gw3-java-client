@@ -1,6 +1,8 @@
 package com.gateway.operation.transaction;
 
-public class RecurrentSms {
+import com.gateway.operation.Operation;
+
+public class RecurrentSms extends Operation {
 
     public final String uri = "/recurrent/sms";
 
