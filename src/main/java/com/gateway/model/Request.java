@@ -5,6 +5,7 @@ import com.gateway.model.request.Data;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ public class Request {
     @Valid
     @Getter
     @Setter
+    @Accessors(chain = true)
     private Data data;
 
     public Request() {

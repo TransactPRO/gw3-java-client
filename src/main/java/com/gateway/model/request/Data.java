@@ -8,11 +8,13 @@ import com.gateway.model.request.data.System;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.validation.Valid;
 
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Data {
     @Valid
     @SerializedName("command-data")

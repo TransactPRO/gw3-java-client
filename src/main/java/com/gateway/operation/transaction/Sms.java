@@ -5,12 +5,10 @@ import com.gateway.validation.SmsValidation;
 
 public class Sms extends Operation {
 
-    public String getRequestUri() {
-        return "/sms";
-    }
+    public final String uri = "/sms";
 
-    public String getRequestMethod() {
-        return "POST";
+    public String getRequestUri() {
+        return uri;
     }
 
     public Class<?> getValidationGroups() {

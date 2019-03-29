@@ -7,6 +7,7 @@ import com.gateway.operation.Operation;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -16,10 +17,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import javax.validation.*;
 import java.io.IOException;
 import java.util.Set;
 
@@ -27,6 +25,7 @@ import java.util.Set;
 public class Gateway {
 
     private String url;
+    @Getter
     private Authorization authorization;
     private HttpClient httpClient;
     private Gson gson;
@@ -62,18 +61,14 @@ public class Gateway {
         return validator.validate(operation.getRequest(), operation.getValidationGroups());
     }
 
-    public void process(Operation operation) throws IOException {
+    public void process(Operation operation) throws IOException, ValidationException {
         Set<ConstraintViolation<Request>> constraintViolations = validate(operation);
 
-        if (constraintViolations.size() > 0) {
-            //got errors
-            //TODO think what to respond
-            System.out.println(String.format("Кол-во ошибок: %d", constraintViolations.size()));
-            for (ConstraintViolation<Request> cv : constraintViolations)
-                System.out.println(String.format(
-                        "Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
-                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
-            return;
+        if (!constraintViolations.isEmpty()) {
+            ConstraintViolation<Request> cv = constraintViolations.iterator().next();
+            throw new ValidationException(
+                    String.format("Validation error! property: [%s], value: [%s], message: [%s]",
+                            cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
         }
         operation.getRequest().setAuthorization(authorization);
 
@@ -89,16 +84,17 @@ public class Gateway {
     }
 
     private HttpUriRequest buildRequest(Operation operation) {
-        StringEntity requestBody = new StringEntity(gson.toJson(operation.getRequest()), "UTF-8");
+        String json = gson.toJson(operation.getRequest());
+        //DEBUG
+        System.out.println(json);
+        System.out.println();
+
+        StringEntity requestBody = new StringEntity(json, "UTF-8");
 
         return RequestBuilder
-                .create(operation.getRequestMethod())
+                .create(operation.getMethod())
                 .setUri(url + operation.getRequestUri())
                 .setEntity(requestBody)
                 .build();
-    }
-
-    public Authorization getAuthorization() {
-        return authorization;
     }
 }

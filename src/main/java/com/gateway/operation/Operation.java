@@ -8,9 +8,14 @@ public abstract class Operation implements Operable {
 
     protected Request request;
     protected Response response = null;
+    protected String method = "POST";
 
     public Operation() {
         request = new Request();
+    }
+
+    public String getMethod() {
+        return method;
     }
 
     public Request getRequest() {
@@ -22,14 +27,12 @@ public abstract class Operation implements Operable {
         return this;
     }
 
-    public abstract String getRequestUri();
-
-    public abstract String getRequestMethod();
-
-    public abstract Class<?> getValidationGroups();
-
     public Response getResponse() {
         return response;
+    }
+
+    public boolean isSuccessful() {
+        return this.response.getError() == null;
     }
 
     public Operation setResponse(Response response) {

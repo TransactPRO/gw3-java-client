@@ -3,9 +3,11 @@ package com.gateway.model.response;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
+@Accessors(chain = true)
 public class AcquirerDetails {
 
     @SerializedName("eci-sli")
