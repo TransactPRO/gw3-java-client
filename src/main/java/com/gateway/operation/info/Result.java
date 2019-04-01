@@ -1,8 +1,9 @@
 package com.gateway.operation.info;
 
 import com.gateway.operation.Operation;
+import com.gateway.operation.interfaces.InfoInterface;
 
-public class Result extends Operation {
+public class Result extends Operation implements InfoInterface<Result> {
 
     public final String uri = "/result";
 
@@ -12,5 +13,10 @@ public class Result extends Operation {
 
     public Class<?> getValidationGroups() {
         return null;
+    }
+
+    @Override
+    public Operation getOperation() {
+        return this;
     }
 }

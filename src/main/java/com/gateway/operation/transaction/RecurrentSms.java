@@ -1,8 +1,9 @@
 package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
+import com.gateway.operation.interfaces.ChargeInterface;
 
-public class RecurrentSms extends Operation {
+public class RecurrentSms extends Operation implements ChargeInterface<RecurrentSms> {
 
     public final String uri = "/recurrent/sms";
 
@@ -12,5 +13,10 @@ public class RecurrentSms extends Operation {
 
     public Class<?> getValidationGroups() {
         return null;
+    }
+
+    @Override
+    public Operation getOperation() {
+        return this;
     }
 }

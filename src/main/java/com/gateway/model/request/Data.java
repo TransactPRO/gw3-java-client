@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.validation.Valid;
 
@@ -30,6 +31,11 @@ public class Data {
     private Money money;
     @Valid
     private System system;
+    
+    @CreditCardNumber(ignoreNonDigitCharacters = true)
+    private String pan;
+    private String currency;
+    private String terminalMid;
 
     public Data() {
         command = new Command();

@@ -6,16 +6,10 @@ import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.operation.transaction.DmsHold;
 import com.gateway.operation.transaction.Refund;
 import com.gateway.operation.transaction.Sms;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 
 import javax.validation.*;
 import java.io.IOException;
 import java.util.Currency;
-import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -41,7 +35,7 @@ public class Main {
             gw.process(sms);
             if (!sms.isSuccessful()) {
                 System.out.println("================== RESULT ==================");
-                System.out.println(sms.getResponse().getError().getMessage());
+                System.out.println(sms.getError().getMessage());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,9 +62,6 @@ public class Main {
 
     public static Sms createSmsTransaction() {
         Sms sms = new Sms();
-        sms.getRequest().getData().getMoney().setAmount(1000).setCurrency("EUR");
-        sms.getRequest().getData().getSystem().setUserIp("10.0.2.2");
-
         Address address = new Address()
                 .setCity("Riga")
                 .setCountry("LV")
@@ -79,18 +70,40 @@ public class Main {
                 .setState("Yes")
                 .setStreet("Lenina")
                 .setZip("LV 1010");
+//        sms.setMoneyCurrency()
+//        sms.setMoneyAmount(100).setMoneyAmount();
+//        sms.setMoneyAmount(100).setMoneyCurrency("EUR");
 
-        sms.getRequest().getData().getGeneral().getOrder()
-                .setMerchantUrl("http://pipec.com")
+//        sms.getRequest().getData().getMoney().setAmount(1000).setCurrency("EUR");
+
+//        sms.setMoneyAmount(1000);
+
+
+//        sms.getRequest().getData().getSystem().setUserIp("10.0.2.2");
+
+//        Address address = new Address()
+//                .setCity("Riga")
+//                .setCountry("LV")
+//                .setFlat("33")
+//                .setHouse("333")
+//                .setState("Yes")
+//                .setStreet("Lenina")
+//                .setZip("LV 1010");
+
+        sms.setOrderMerchantUrl("http://pipec.com")
                 .setOrderDescription("Money for Trump")
-                .setMerchantTransactionId(UUID.randomUUID().toString());
+                .setOrderMerchantTransactionId(UUID.randomUUID().toString())
+                .setMoneyAmount(1000)
+                .setMoneyCurrency("EUR")
+                .setCustomerBillingAddress(address)
+                .setCustomerShippingAddress(address);
 
-        sms.getRequest().getData().getGeneral().getCustomer()
-                .setEmail("vitalik@test.io")
-                .setPhone("26171717")
-                .setBirthDate("Yes")
-                .setBillingAddress(address)
-                .setShippingAddress(address);
+//        sms.getRequest().getData().getGeneral().getCustomer()
+//                .setEmail("vitalik@test.io")
+//                .setPhone("26171717")
+//                .setBirthDate("Yes")
+//                .setBillingAddress(address)
+//                .setShippingAddress(address);
 
         return sms;
     }

@@ -74,7 +74,7 @@ public class Gateway {
 
         HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
         String responseBody = EntityUtils.toString(httpResponse.getEntity());
-
+        //DEBUG
         System.out.println(responseBody);
 
         if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {

@@ -3,10 +3,11 @@ package com.gateway.operation;
 
 import com.gateway.model.Request;
 import com.gateway.model.Response;
+import com.gateway.model.response.Error;
 
 import javax.validation.groups.Default;
 
-public abstract class Operation implements Operable {
+public abstract class Operation<T> implements Operable {
 
     protected Request request;
     protected Response response = null;
@@ -16,23 +17,12 @@ public abstract class Operation implements Operable {
         request = new Request();
     }
 
-
     public Request getRequest() {
         return request;
     }
 
-    public Operation setRequest(Request request) {
-        this.request = request;
-        return this;
-    }
-
-    public Response getResponse() {
-        return response;
-    }
-
-    public Operation setResponse(Response response) {
+    public void setResponse(Response response) {
         this.response = response;
-        return this;
     }
 
     public String getMethod() {
@@ -46,5 +36,9 @@ public abstract class Operation implements Operable {
     @Override
     public Class<?> getValidationGroups() {
         return Default.class;
+    }
+
+    public Error getError() {
+        return response.getError();
     }
 }

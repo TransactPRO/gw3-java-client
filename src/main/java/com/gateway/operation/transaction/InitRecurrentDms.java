@@ -1,8 +1,9 @@
 package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
+import com.gateway.operation.interfaces.Transaction;
 
-public class InitRecurrentDms extends Operation {
+public class InitRecurrentDms extends Operation implements Transaction<InitRecurrentDms> {
 
     public final String uri = "/recurrent/dms/init";
 
@@ -12,5 +13,10 @@ public class InitRecurrentDms extends Operation {
 
     public Class<?> getValidationGroups() {
         return null;
+    }
+
+    @Override
+    public Operation getOperation() {
+        return this;
     }
 }

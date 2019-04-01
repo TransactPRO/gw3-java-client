@@ -1,8 +1,9 @@
 package com.gateway.operation.info;
 
 import com.gateway.operation.Operation;
+import com.gateway.operation.interfaces.InfoInterface;
 
-public class History extends Operation {
+public class History extends Operation implements InfoInterface<History> {
 
     public final String uri = "/history";
 
@@ -12,5 +13,10 @@ public class History extends Operation {
 
     public Class<?> getValidationGroups() {
         return null;
+    }
+
+    @Override
+    public Operation getOperation() {
+        return this;
     }
 }
