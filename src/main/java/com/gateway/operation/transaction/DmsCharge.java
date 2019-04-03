@@ -11,7 +11,7 @@ public class DmsCharge extends Operation implements ChargeInterface<DmsCharge> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

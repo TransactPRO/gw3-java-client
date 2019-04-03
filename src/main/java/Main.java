@@ -33,10 +33,11 @@ public class Main {
 
         try {
             gw.process(sms);
-            if (!sms.isSuccessful()) {
+//            if (!sms.isSuccessful()) {
                 System.out.println("================== RESULT ==================");
+                System.out.println("Is successful :" + sms.isSuccessful());
                 System.out.println(sms.getError().getMessage());
-            }
+  //          }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ValidationException e) {
@@ -70,25 +71,6 @@ public class Main {
                 .setState("Yes")
                 .setStreet("Lenina")
                 .setZip("LV 1010");
-//        sms.setMoneyCurrency()
-//        sms.setMoneyAmount(100).setMoneyAmount();
-//        sms.setMoneyAmount(100).setMoneyCurrency("EUR");
-
-//        sms.getRequest().getData().getMoney().setAmount(1000).setCurrency("EUR");
-
-//        sms.setMoneyAmount(1000);
-
-
-//        sms.getRequest().getData().getSystem().setUserIp("10.0.2.2");
-
-//        Address address = new Address()
-//                .setCity("Riga")
-//                .setCountry("LV")
-//                .setFlat("33")
-//                .setHouse("333")
-//                .setState("Yes")
-//                .setStreet("Lenina")
-//                .setZip("LV 1010");
 
         sms.setOrderMerchantUrl("http://pipec.com")
                 .setOrderDescription("Money for Trump")
@@ -96,14 +78,11 @@ public class Main {
                 .setMoneyAmount(1000)
                 .setMoneyCurrency("EUR")
                 .setCustomerBillingAddress(address)
-                .setCustomerShippingAddress(address);
-
-//        sms.getRequest().getData().getGeneral().getCustomer()
-//                .setEmail("vitalik@test.io")
-//                .setPhone("26171717")
-//                .setBirthDate("Yes")
-//                .setBillingAddress(address)
-//                .setShippingAddress(address);
+                .setCustomerShippingAddress(address)
+                .setCustomerPhone("25252525")
+                .setCustomerEmail("test@test.io")
+                .setCustomerBirthDate("yes")
+                .setSystemUserIp("10.0.2.2");
 
         return sms;
     }

@@ -11,7 +11,7 @@ public class Credit extends Operation implements Transaction<Credit> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

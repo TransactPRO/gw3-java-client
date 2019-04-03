@@ -11,7 +11,7 @@ public class InitRecurrentSms extends Operation implements Transaction<InitRecur
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

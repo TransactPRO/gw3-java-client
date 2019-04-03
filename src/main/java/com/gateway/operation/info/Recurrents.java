@@ -11,7 +11,7 @@ public class Recurrents extends Operation implements InfoInterface<Recurrents> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

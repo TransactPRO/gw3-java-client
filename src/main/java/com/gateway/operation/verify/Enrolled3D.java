@@ -11,7 +11,7 @@ public class Enrolled3D extends Operation implements DataInterface<Enrolled3D> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

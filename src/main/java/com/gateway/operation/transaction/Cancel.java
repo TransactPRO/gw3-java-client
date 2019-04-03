@@ -12,7 +12,7 @@ public class Cancel extends Operation implements CommandInterface<Cancel>, Order
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

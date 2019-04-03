@@ -12,6 +12,11 @@ public class DmsHold extends Operation implements Transaction<DmsHold> {
         return this;
     }
 
+    @Override
+    public Class getValidationGroups() {
+        return super.getValidationGroups();
+    }
+
     public String getRequestUri() {
         return uri;
     }

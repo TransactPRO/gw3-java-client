@@ -11,7 +11,7 @@ public class Result extends Operation implements InfoInterface<Result> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

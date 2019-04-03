@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -73,21 +72,14 @@ public class Gateway {
         operation.getRequest().setAuthorization(authorization);
 
         HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
+        System.out.println(httpResponse.getEntity());
         String responseBody = EntityUtils.toString(httpResponse.getEntity());
-        //DEBUG
-        System.out.println(responseBody);
 
-        if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            operation.setResponse(gson.fromJson(responseBody, Response.class));
-        }
-        return;
+        operation.setResponse(gson.fromJson(responseBody, Response.class));
     }
 
     private HttpUriRequest buildRequest(Operation operation) {
         String json = gson.toJson(operation.getRequest());
-        //DEBUG
-        System.out.println(json);
-        System.out.println();
 
         StringEntity requestBody = new StringEntity(json, "UTF-8");
 

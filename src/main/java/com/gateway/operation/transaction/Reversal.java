@@ -12,7 +12,7 @@ public class Reversal extends Operation implements CommandInterface<Reversal>, O
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

@@ -9,8 +9,10 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 public class Gateway {
+
     @SerializedName("gateway-transaction-id")
     private String transactionId;
     private Integer statusCode;
     private String statusText;
+    private String redirectUrl;
 }

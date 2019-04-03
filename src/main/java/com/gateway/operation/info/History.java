@@ -11,7 +11,7 @@ public class History extends Operation implements InfoInterface<History> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

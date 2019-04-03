@@ -11,7 +11,7 @@ public class P2P extends Operation implements Transaction<P2P> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

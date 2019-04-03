@@ -11,7 +11,7 @@ public class RecurrentSms extends Operation implements ChargeInterface<Recurrent
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

@@ -11,7 +11,7 @@ public class Refund extends Operation implements ChargeInterface<Refund> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

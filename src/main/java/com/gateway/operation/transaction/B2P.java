@@ -11,7 +11,7 @@ public class B2P extends Operation implements Transaction<B2P> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

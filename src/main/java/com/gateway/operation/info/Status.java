@@ -12,7 +12,7 @@ public class Status extends Operation implements InfoInterface<Status> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 

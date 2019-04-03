@@ -4,21 +4,20 @@ package com.gateway.operation;
 import com.gateway.model.Request;
 import com.gateway.model.Response;
 import com.gateway.model.response.Error;
+import lombok.Getter;
 
 import javax.validation.groups.Default;
 
-public abstract class Operation<T> implements Operable {
+public abstract class Operation implements Operable {
 
+    @Getter
     protected Request request;
-    protected Response response = null;
+    @Getter
+    protected Response response;
     protected String method = "POST";
 
     public Operation() {
         request = new Request();
-    }
-
-    public Request getRequest() {
-        return request;
     }
 
     public void setResponse(Response response) {
@@ -30,11 +29,11 @@ public abstract class Operation<T> implements Operable {
     }
 
     public boolean isSuccessful() {
-        return this.response.getError() == null;
+        return this.response.getError().getMessage() == null;
     }
 
     @Override
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return Default.class;
     }
 

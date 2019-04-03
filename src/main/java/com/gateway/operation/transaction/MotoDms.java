@@ -11,7 +11,7 @@ public class MotoDms extends Operation implements Transaction<MotoDms> {
         return uri;
     }
 
-    public Class<?> getValidationGroups() {
+    public Class getValidationGroups() {
         return null;
     }
 
