@@ -1,7 +1,7 @@
 package com.gateway.model.request.data.general;
 
 import com.gateway.model.request.data.general.customer.Address;
-import com.gateway.validation.ToPersonGroup;
+import com.gateway.validation.base.CustomerBirthDateGroup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -18,7 +18,7 @@ public class Customer {
 
     @Email(groups = {Default.class})
     private String email;
-    @NotNull(groups = ToPersonGroup.class)
+    @NotNull(groups = {CustomerBirthDateGroup.class})
     private String birthDate;
     private String phone;
     @Valid

@@ -1,6 +1,6 @@
 package com.gateway.model.request.data.general;
 
-import com.gateway.validation.ToPersonGroup;
+import com.gateway.validation.base.OrderRecipientNameGroup;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class Order {
     @SerializedName("merchant-side-url")
     @URL
     private String merchantUrl;
-    @NotNull(groups = ToPersonGroup.class)
+    @NotNull(groups = {OrderRecipientNameGroup.class})
     private String recipientName;
     private String merchantReferringName;
     private String custom3dReturnUrl;
