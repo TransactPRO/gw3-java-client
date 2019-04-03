@@ -1,17 +1,20 @@
 package com.gateway.model.request.data.general;
 
+import com.gateway.validation.ToPersonGroup;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.URL;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 public class Order {
+
     private String merchantTransactionId;
     @SerializedName("merchant-user-id")
     private String merchantId;
@@ -22,6 +25,7 @@ public class Order {
     @SerializedName("merchant-side-url")
     @URL
     private String merchantUrl;
+    @NotNull(groups = ToPersonGroup.class)
     private String recipientName;
     private String merchantReferringName;
     private String custom3dReturnUrl;

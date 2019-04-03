@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.Transaction;
+import com.gateway.validation.TransactionGroup;
 
 public class DmsHold extends Operation implements Transaction<DmsHold> {
 
@@ -14,7 +15,7 @@ public class DmsHold extends Operation implements Transaction<DmsHold> {
 
     @Override
     public Class getValidationGroups() {
-        return super.getValidationGroups();
+        return TransactionGroup.class;
     }
 
     public String getRequestUri() {

@@ -1,5 +1,7 @@
 package com.gateway.validation;
 
+import com.gateway.validation.base.MoneyGroup;
+
 import javax.validation.GroupSequence;
 import javax.validation.groups.Default;
 

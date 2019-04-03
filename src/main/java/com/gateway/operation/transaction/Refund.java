@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.ChargeInterface;
+import com.gateway.validation.CommandAmountGroup;
 
 public class Refund extends Operation implements ChargeInterface<Refund> {
 
@@ -12,7 +13,7 @@ public class Refund extends Operation implements ChargeInterface<Refund> {
     }
 
     public Class getValidationGroups() {
-        return null;
+        return CommandAmountGroup.class;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.ChargeInterface;
+import com.gateway.validation.DmsChargeGroup;
 
 public class DmsCharge extends Operation implements ChargeInterface<DmsCharge> {
 
@@ -12,7 +13,7 @@ public class DmsCharge extends Operation implements ChargeInterface<DmsCharge> {
     }
 
     public Class getValidationGroups() {
-        return null;
+        return DmsChargeGroup.class;
     }
 
     @Override

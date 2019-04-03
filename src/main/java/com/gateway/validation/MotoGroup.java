@@ -7,5 +7,5 @@ import javax.validation.GroupSequence;
 import javax.validation.groups.Default;
 
 @GroupSequence({Default.class, MoneyGroup.class, PaymentMethodPanExpGroup.class})
-public interface CreditGroup {
+public interface MotoGroup {
 }

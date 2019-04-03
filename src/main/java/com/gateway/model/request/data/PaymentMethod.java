@@ -1,6 +1,6 @@
 package com.gateway.model.request.data;
 
-import com.gateway.validation.CreditGroup;
+import com.gateway.validation.base.PaymentMethodPanExpGroup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class PaymentMethod {
     @CreditCardNumber(ignoreNonDigitCharacters = true)
-    @NotNull(groups = CreditGroup.class)
+    @NotNull(groups = PaymentMethodPanExpGroup.class)
     private String pan;
-    @NotNull(groups = CreditGroup.class)
+    @NotNull(groups = PaymentMethodPanExpGroup.class)
     private String expMmYy;
     private String cvv;
     private String cardholderName;

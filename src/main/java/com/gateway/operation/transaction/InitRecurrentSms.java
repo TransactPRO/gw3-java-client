@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.Transaction;
+import com.gateway.validation.TransactionGroup;
 
 public class InitRecurrentSms extends Operation implements Transaction<InitRecurrentSms> {
 
@@ -11,8 +12,9 @@ public class InitRecurrentSms extends Operation implements Transaction<InitRecur
         return uri;
     }
 
+    @Override
     public Class getValidationGroups() {
-        return null;
+        return TransactionGroup.class;
     }
 
     @Override

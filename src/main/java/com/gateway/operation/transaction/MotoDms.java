@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.Transaction;
+import com.gateway.validation.MotoGroup;
 
 public class MotoDms extends Operation implements Transaction<MotoDms> {
 
@@ -12,7 +13,7 @@ public class MotoDms extends Operation implements Transaction<MotoDms> {
     }
 
     public Class getValidationGroups() {
-        return null;
+        return MotoGroup.class;
     }
 
     @Override

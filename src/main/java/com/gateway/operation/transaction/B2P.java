@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.Transaction;
+import com.gateway.validation.ToPersonGroup;
 
 public class B2P extends Operation implements Transaction<B2P> {
 
@@ -12,7 +13,7 @@ public class B2P extends Operation implements Transaction<B2P> {
     }
 
     public Class getValidationGroups() {
-        return null;
+        return ToPersonGroup.class;
     }
 
     @Override

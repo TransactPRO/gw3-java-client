@@ -2,6 +2,7 @@ package com.gateway.operation.transaction;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.ChargeInterface;
+import com.gateway.validation.CommandAmountGroup;
 
 public class RecurrentSms extends Operation implements ChargeInterface<RecurrentSms> {
 
@@ -12,7 +13,7 @@ public class RecurrentSms extends Operation implements ChargeInterface<Recurrent
     }
 
     public Class getValidationGroups() {
-        return null;
+        return CommandAmountGroup.class;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.gateway.operation.transaction;
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.base.CommandInterface;
 import com.gateway.operation.interfaces.base.OrderInterface;
+import com.gateway.validation.base.CommandTransactionIdGroup;
 
 public class Reversal extends Operation implements CommandInterface<Reversal>, OrderInterface<Reversal> {
 
@@ -13,7 +14,7 @@ public class Reversal extends Operation implements CommandInterface<Reversal>, O
     }
 
     public Class getValidationGroups() {
-        return null;
+        return CommandTransactionIdGroup.class;
     }
 
     @Override

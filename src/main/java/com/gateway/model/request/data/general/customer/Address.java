@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 public class Address {
+
     private String country;
     private String state;
     private String city;
