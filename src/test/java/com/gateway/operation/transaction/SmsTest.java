@@ -1,14 +1,22 @@
 package com.gateway.operation.transaction;
 
+import com.gateway.model.Request;
 import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.validation.TransactionGroup;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmsTest {
+
 
     @Test
     void getRequestUri() {
@@ -17,7 +25,7 @@ class SmsTest {
     }
 
     @Test
-    void createSmsTransaction() {
+    void validSmsTransaction() {
         Sms sms = new Sms();
         Address address = new Address()
                 .setCity("Chalon-sur-Saône")
@@ -39,6 +47,25 @@ class SmsTest {
                 .setCustomerEmail("test@test.domain")
                 .setCustomerBirthDate("29/02")
                 .setSystemUserIp("127.0.0.1");
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validatorFactory.close();
+
+        Set<ConstraintViolation<Request>> constraintViolations = validator.validate(sms.getRequest(), sms.getValidationGroups());
+        assertTrue(constraintViolations.isEmpty());
+    }
+
+    @Test
+    void invalidSmsTransaction() {
+        Sms sms = new Sms();
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validatorFactory.close();
+
+        Set<ConstraintViolation<Request>> constraintViolations = validator.validate(sms.getRequest(), sms.getValidationGroups());
+        assertFalse(constraintViolations.isEmpty());
     }
 
     @Test
