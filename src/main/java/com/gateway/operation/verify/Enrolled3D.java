@@ -2,6 +2,7 @@ package com.gateway.operation.verify;
 
 import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.base.DataInterface;
+import com.gateway.validation.EnrollGroup;
 
 public class Enrolled3D extends Operation implements DataInterface<Enrolled3D> {
 
@@ -11,8 +12,9 @@ public class Enrolled3D extends Operation implements DataInterface<Enrolled3D> {
         return uri;
     }
 
+    @Override
     public Class getValidationGroups() {
-        return null;
+        return EnrollGroup.class;
     }
 
     @Override

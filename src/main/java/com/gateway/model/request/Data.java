@@ -5,6 +5,7 @@ import com.gateway.model.request.data.General;
 import com.gateway.model.request.data.Money;
 import com.gateway.model.request.data.PaymentMethod;
 import com.gateway.model.request.data.System;
+import com.gateway.validation.base.DataGroup;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -31,10 +33,13 @@ public class Data {
     private Money money;
     @Valid
     private System system;
-    
+
     @CreditCardNumber(ignoreNonDigitCharacters = true)
+    @NotNull(groups = {DataGroup.class})
     private String pan;
+    @NotNull(groups = {DataGroup.class})
     private String currency;
+    @NotNull(groups = {DataGroup.class})
     private String terminalMid;
 
     public Data() {

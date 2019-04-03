@@ -3,7 +3,6 @@ package com.gateway.operation.transaction;
 import com.gateway.model.Request;
 import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.validation.TransactionGroup;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
@@ -47,6 +46,7 @@ class SmsTest {
                 .setCustomerEmail("test@test.domain")
                 .setCustomerBirthDate("29/02")
                 .setSystemUserIp("127.0.0.1");
+
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
