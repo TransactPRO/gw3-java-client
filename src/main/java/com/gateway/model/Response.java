@@ -17,4 +17,5 @@ public class Response {
     private AcquirerDetails acquirerDetails;
     private String msg;
     private Integer status;
+
 }
