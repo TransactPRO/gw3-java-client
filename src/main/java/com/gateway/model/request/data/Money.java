@@ -1,6 +1,5 @@
 package com.gateway.model.request.data;
 
-import com.gateway.validation.DmsChargeGroup;
 import com.gateway.validation.base.AmountGroup;
 import com.gateway.validation.base.MoneyGroup;
 import lombok.Getter;

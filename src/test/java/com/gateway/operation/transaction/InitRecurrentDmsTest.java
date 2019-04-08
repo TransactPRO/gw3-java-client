@@ -3,7 +3,6 @@ package com.gateway.operation.transaction;
 import com.gateway.model.Request;
 import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.validation.TransactionGroup;
-import com.gateway.validation.base.CommandTransactionIdGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

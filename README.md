@@ -40,41 +40,47 @@ import com.gateway.Gateway;
 import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.operation.transaction.Sms;
 
-Gateway gw = new Gateway(
-    "xxxxxxxx-xxxxxxxx-xxxxxxxxxx",
-    "8XY0ujBrVSkNpLe",
-    "https://payment.gateway.com/v3.0"
-);
-
-Sms sms = new Sms();
-
-Address address = new Address()
-    .setCity("Paris")
-    .setCountry("FR")
-    .setFlat("33")
-    .setHouse("333")
-    .setState("Paris")
-    .setStreet("Test street")
-    .setZip("781010");
-
-sms.setOrderMerchantUrl("https://my-domain.com")
-    .setOrderDescription("Online shop order #33")
-    .setOrderMerchantTransactionId("33")
-    .setMoneyAmount(1000)
-    .setMoneyCurrency("EUR")
-    .setCustomerBillingAddress(address)
-    .setCustomerShippingAddress(address)
-    .setCustomerPhone("81111111111")
-    .setCustomerEmail("test@test.io")
-    .setCustomerBirthDate("1999/01/25")
-    .setSystemUserIp("127.0.0.1");
-
-try {
-    gw.process(sms);
-} catch (IOException e) {
-    // Do somthing
-} catch (ValidationException e) {
-    // Do somthing
+public class Main {
+    
+    public static void main(String[] args) {
+        
+        Gateway gw = new Gateway(
+         "xxxxxxxx-xxxxxxxx-xxxxxxxxxx",
+         "8XY0ujBrVSkNpLe",
+         "https://payment.gateway.com/v3.0"
+        );
+ 
+        Sms sms = new Sms();
+     
+        Address address = new Address()
+         .setCity("Paris")
+         .setCountry("FR")
+         .setFlat("33")
+         .setHouse("333")
+         .setState("Paris")
+         .setStreet("Test street")
+         .setZip("781010");
+ 
+        sms.setOrderMerchantUrl("https://my-domain.com")
+         .setOrderDescription("Online shop order #33")
+         .setOrderMerchantTransactionId("33")
+         .setMoneyAmount(1000)
+         .setMoneyCurrency("EUR")
+         .setCustomerBillingAddress(address)
+         .setCustomerShippingAddress(address)
+         .setCustomerPhone("81111111111")
+         .setCustomerEmail("test@test.io")
+         .setCustomerBirthDate("1999/01/25")
+         .setSystemUserIp("127.0.0.1");
+ 
+        try {
+         gw.process(sms);
+        } catch (IOException e) {
+         // Do something with IOException
+        } catch (ValidationException e) {
+         // Do something with ValidationException
+        }
+    }
 }
 ```
 

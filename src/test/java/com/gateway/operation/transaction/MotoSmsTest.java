@@ -2,7 +2,6 @@ package com.gateway.operation.transaction;
 
 import com.gateway.model.Request;
 import com.gateway.validation.MotoGroup;
-import com.gateway.validation.base.CommandTransactionIdGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
