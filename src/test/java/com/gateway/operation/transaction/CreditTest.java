@@ -1,8 +1,11 @@
-package com.gateway.operation.verify;
+package com.gateway.operation.transaction;
 
 import com.gateway.model.Request;
-import com.gateway.validation.EnrollGroup;
-import org.junit.jupiter.api.*;
+import com.gateway.validation.CreditGroup;
+import com.gateway.validation.base.CommandTransactionIdGroup;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -12,13 +15,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Enrolled3DTest {
+class CreditTest {
 
-    private Enrolled3D operation;
+    private Credit operation;
 
     @BeforeEach
-    protected void setUp() {
-        operation = new Enrolled3D();
+    void setUp() {
+        operation = new Credit();
     }
 
     @AfterEach
@@ -33,7 +36,7 @@ class Enrolled3DTest {
 
     @Test
     void getValidationGroups() {
-        assertEquals(EnrollGroup.class, operation.getValidationGroups());
+        assertEquals(CreditGroup.class, operation.getValidationGroups());
     }
 
     @Test
@@ -42,9 +45,10 @@ class Enrolled3DTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-        operation.setDataCurrency("EUR")
-                .setDataPan("4111-1111-1111-1111")
-                .setDataTerminalMid("Test");
+        operation.setMoneyAmount(100)
+                .setMoneyCurrency("EUR")
+                .setPaymentMethodExpMmYy("12/18")
+                .setPaymentMethodPan("0000-0000-0000-0000");
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

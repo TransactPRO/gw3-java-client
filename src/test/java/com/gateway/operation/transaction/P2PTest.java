@@ -1,8 +1,10 @@
-package com.gateway.operation.verify;
+package com.gateway.operation.transaction;
 
 import com.gateway.model.Request;
-import com.gateway.validation.EnrollGroup;
-import org.junit.jupiter.api.*;
+import com.gateway.validation.ToPersonGroup;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -12,13 +14,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Enrolled3DTest {
+class P2PTest {
 
-    private Enrolled3D operation;
+    private P2P operation;
 
     @BeforeEach
-    protected void setUp() {
-        operation = new Enrolled3D();
+    void setUp() {
+        operation = new P2P();
     }
 
     @AfterEach
@@ -33,7 +35,7 @@ class Enrolled3DTest {
 
     @Test
     void getValidationGroups() {
-        assertEquals(EnrollGroup.class, operation.getValidationGroups());
+        assertEquals(ToPersonGroup.class, operation.getValidationGroups());
     }
 
     @Test
@@ -42,9 +44,12 @@ class Enrolled3DTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-        operation.setDataCurrency("EUR")
-                .setDataPan("4111-1111-1111-1111")
-                .setDataTerminalMid("Test");
+        operation.setCustomerBirthDate("20.20.00")
+                .setMoneyAmount(100)
+                .setMoneyCurrency("EUR")
+                .setOrderRecipientName("John Smith")
+                .setPaymentMethodPan("0000-0000-0000-0000")
+                .setPaymentMethodExpMmYy("2020");
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

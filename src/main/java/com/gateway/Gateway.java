@@ -8,6 +8,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -25,6 +26,8 @@ import java.util.Set;
  */
 public class Gateway {
 
+    @Getter
+    @Setter
     private String url;
     @Getter
     private Authorization authorization;
@@ -32,9 +35,21 @@ public class Gateway {
     private Gson jsonParser;
     private Validator validator;
 
-    public Gateway(String url) {
+    public Gateway(String accountGuid, String secretKey) {
+        this.authorization = new Authorization(accountGuid, secretKey);
+        prepare();
+    }
+
+    public Gateway(String accountGuid, String secretKey, String url) {
         this.url = url;
-        this.authorization = new Authorization();
+        this.authorization = new Authorization(accountGuid, secretKey);
+        prepare();
+    }
+
+    /**
+     * Building all libraries
+     */
+    private void prepare() {
         buildHttpClient();
         buildJsonParser();
         buildValidator();
@@ -94,10 +109,7 @@ public class Gateway {
                             cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
         }
 
-        operation.getRequest().setAuthorization(authorization);
-
         HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
-        System.out.println(httpResponse.getEntity());
         String responseBody = EntityUtils.toString(httpResponse.getEntity());
 
         operation.setResponse(jsonParser.fromJson(responseBody, Response.class));
@@ -111,8 +123,11 @@ public class Gateway {
      * @return
      */
     private HttpUriRequest buildRequest(Operation operation) {
-        String json = jsonParser.toJson(operation.getRequest());
 
+        /* Setting credentials for request */
+        operation.getRequest().setAuthorization(authorization);
+
+        String json = jsonParser.toJson(operation.getRequest());
         StringEntity requestBody = new StringEntity(json, "UTF-8");
 
         return RequestBuilder

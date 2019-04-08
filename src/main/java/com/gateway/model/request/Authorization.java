@@ -11,4 +11,9 @@ public class Authorization {
     private String accountGuid;
     private String secretKey;
     private String sessionId;
+
+    public Authorization(String accountGuid, String secretKey) {
+        this.accountGuid = accountGuid;
+        this.secretKey = secretKey;
+    }
 }

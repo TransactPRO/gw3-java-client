@@ -4,7 +4,7 @@ import com.gateway.operation.Operation;
 import com.gateway.operation.interfaces.Transaction;
 import com.gateway.validation.MotoGroup;
 
-public class MotoSms  extends Operation implements Transaction<MotoDms> {
+public class MotoSms  extends Operation implements Transaction<MotoSms> {
 
     public final String uri = "/moto/sms";
 

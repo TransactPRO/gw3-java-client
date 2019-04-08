@@ -11,10 +11,6 @@ public class Recurrents extends Operation implements InfoInterface<Recurrents> {
         return uri;
     }
 
-    public Class getValidationGroups() {
-        return null;
-    }
-
     @Override
     public Operation getOperation() {
         return this;

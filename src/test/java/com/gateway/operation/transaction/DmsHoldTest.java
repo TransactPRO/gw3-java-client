@@ -3,6 +3,7 @@ package com.gateway.operation.transaction;
 import com.gateway.model.Request;
 import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.validation.TransactionGroup;
+import com.gateway.validation.base.CommandTransactionIdGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +17,13 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SmsTest {
+class DmsHoldTest {
 
-    private Sms operation;
+    private DmsHold operation;
 
     @BeforeEach
     void setUp() {
-        operation = new Sms();
+        operation = new DmsHold();
     }
 
     @AfterEach
@@ -42,6 +43,10 @@ class SmsTest {
 
     @Test
     void validOperation() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validatorFactory.close();
+
         Address address = new Address()
                 .setCity("Chalon-sur-Saône")
                 .setCountry("FR")
@@ -62,19 +67,7 @@ class SmsTest {
                 .setCustomerEmail("test@test.domain")
                 .setCustomerBirthDate("29/02")
                 .setSystemUserIp("127.0.0.1")
-                .setOrderId("OrderId")
-                .setOrderCustom3dReturnUrl("https://domain.com/custom-url/")
-                .setOrderRecipientName("John Smith")
-                .setOrderMerchantReferringName("String data")
-                .setPaymentMethodCardholderName("John Smith")
-                .setPaymentMethodCvv("000")
-                .setPaymentMethodExpMmYy("12/18")
-                .setPaymentMethodPan("0000000000000000");
-
-
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        validatorFactory.close();
+                .setOrderId("OrderId");
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());
@@ -82,7 +75,6 @@ class SmsTest {
 
     @Test
     void invalidOperation() {
-
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();

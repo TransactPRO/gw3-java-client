@@ -11,10 +11,6 @@ public class Refunds extends Operation implements InfoInterface<Refunds> {
         return uri;
     }
 
-    public Class getValidationGroups() {
-        return null;
-    }
-
     @Override
     public Operation getOperation() {
         return this;

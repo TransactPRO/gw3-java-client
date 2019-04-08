@@ -1,24 +1,27 @@
-package com.gateway.operation.verify;
+package com.gateway.operation.info;
 
 import com.gateway.model.Request;
-import com.gateway.validation.EnrollGroup;
-import org.junit.jupiter.api.*;
+import com.gateway.validation.ToPersonGroup;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.groups.Default;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Enrolled3DTest {
+class ResultTest {
 
-    private Enrolled3D operation;
+    private Result operation;
 
     @BeforeEach
-    protected void setUp() {
-        operation = new Enrolled3D();
+    void setUp() {
+        operation = new Result();
     }
 
     @AfterEach
@@ -33,7 +36,7 @@ class Enrolled3DTest {
 
     @Test
     void getValidationGroups() {
-        assertEquals(EnrollGroup.class, operation.getValidationGroups());
+        assertEquals(Default.class, operation.getValidationGroups());
     }
 
     @Test
@@ -42,21 +45,11 @@ class Enrolled3DTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-        operation.setDataCurrency("EUR")
-                .setDataPan("4111-1111-1111-1111")
-                .setDataTerminalMid("Test");
+        String[] transactionIds = {"123", "321"};
+        operation.setCommandGatewayTransactionIds(transactionIds)
+                .setCommandMerchantTransactionIds(transactionIds);
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());
-    }
-
-    @Test
-    void invalidOperation() {
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        validatorFactory.close();
-
-        Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
-        assertFalse(constraintViolations.isEmpty());
     }
 }

@@ -9,6 +9,9 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.internal.util.reflection.FieldSetter;
 
 import javax.validation.ConstraintViolation;
@@ -16,7 +19,9 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,9 +34,7 @@ class GatewayTest {
 
     @BeforeEach
     void setUp() {
-        gw = new Gateway("http://some-fake-url33-should-not-work.com/");
-        gw.getAuthorization().setAccountGuid("dsfw3f34fsdf-GUID")
-                .setSecretKey("very,very_secret_key");
+        gw = new Gateway("dsfw3f34fsdf-GUID", "very,very_secret_key", "http://some-fake-url33-should-not-work.com/");
     }
 
     @AfterEach
@@ -54,8 +57,9 @@ class GatewayTest {
         assertThrows(IOException.class, () -> gw.process(sms));
     }
 
-    @Test
-    void process() throws NoSuchFieldException, IOException {
+    @ParameterizedTest
+    @MethodSource("processParameters")
+    void process(String body, boolean success, String transactionId, String redirectUrl, String errorMessage) throws NoSuchFieldException, IOException {
 
         Sms sms = new Sms();
         Validator validator = mock(Validator.class);
@@ -67,9 +71,7 @@ class GatewayTest {
         HttpResponse httpResponse = mock(HttpResponse.class);
         HttpEntity httpEntity = mock(HttpEntity.class);
 
-        String body = "{\"acquirer-details\":{},\"error\":{},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"redirect-url\":\"https://success.url.com/\",\"status-code\":30,\"status-text\":\"INSIDE FORM URL SENT\"},\"warnings\":[]}";
-
-        when(httpEntity.getContent()).thenReturn(new ByteArrayInputStream(body.getBytes("UTF-8")));
+        when(httpEntity.getContent()).thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
         when(httpResponse.getEntity()).thenReturn(httpEntity);
         when(httpClient.execute(any(HttpUriRequest.class))).thenReturn(httpResponse);
 
@@ -77,8 +79,28 @@ class GatewayTest {
         FieldSetter.setField(gw, gw.getClass().getDeclaredField("httpClient"), httpClient);
         gw.process(sms);
 
-        assertEquals("51f5171b", sms.getResponse().getGateway().getTransactionId());
-        assertEquals("https://success.url.com/", sms.getResponse().getGateway().getRedirectUrl());
-        assertTrue(sms.isSuccessful());
+        assertEquals(success, sms.isSuccessful());
+        assertEquals(transactionId, sms.getResponse().getGateway().getTransactionId());
+        assertEquals(redirectUrl, sms.getResponse().getGateway().getRedirectUrl());
+        assertEquals(errorMessage, sms.getError().getMessage());
+    }
+
+    private static Stream processParameters() {
+        return Stream.of(
+                Arguments.of(
+                        "{\"acquirer-details\":{},\"error\":{},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"redirect-url\":\"https://success.url.com/\",\"status-code\":30,\"status-text\":\"INSIDE FORM URL SENT\"},\"warnings\":[]}",
+                        true,
+                        "51f5171b",
+                        "https://success.url.com/",
+                        null
+                ),
+                Arguments.of(
+                        "{\"acquirer-details\":{},\"error\":{\"code\":1100,\"message\":\"Invalid input data provided. Failed assertion\"},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"status-code\":19,\"status-text\":\"VALIDATION FAILED\"},\"warnings\":[]}",
+                        false,
+                        "51f5171b",
+                        null,
+                        "Invalid input data provided. Failed assertion"
+                )
+        );
     }
 }

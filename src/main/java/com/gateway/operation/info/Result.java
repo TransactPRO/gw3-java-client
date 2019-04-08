@@ -11,10 +11,6 @@ public class Result extends Operation implements InfoInterface<Result> {
         return uri;
     }
 
-    public Class getValidationGroups() {
-        return null;
-    }
-
     @Override
     public Operation getOperation() {
         return this;

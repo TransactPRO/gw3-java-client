@@ -5,10 +5,8 @@ import com.gateway.model.response.Error;
 import com.gateway.model.response.Gateway;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class Response {
 
     @SerializedName("gw")

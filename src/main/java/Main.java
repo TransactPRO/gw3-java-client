@@ -1,7 +1,4 @@
 import com.gateway.Gateway;
-import com.gateway.model.request.Authorization;
-import com.gateway.model.request.Data;
-import com.gateway.model.Request;
 import com.gateway.model.request.data.general.customer.Address;
 import com.gateway.operation.transaction.DmsHold;
 import com.gateway.operation.transaction.Refund;
@@ -25,19 +22,25 @@ public class Main {
         //        System.out.println(cc.length);
         //        System.out.println(currencies);
 
-        Gateway gw = new Gateway("http://uriel.vg.fpngw3.env/v3.0");
-        gw.getAuthorization().setAccountGuid("c5a39508-e00d-42ae-a961-756805ec9e46")
-                .setSecretKey("8XY0ujBrVSkNpLeZ3GKAJPRniOxFza9D");
+        Gateway gw = new Gateway(
+                "c5a39508-e00d-42ae-a961-756805ec9e46",
+                "8XY0ujBrVSkNpLeZ3GKAJPRniOxFza9D",
+                "http://uriel.vg.fpngw3.env/v3.0"
+        );
 
         Sms sms = Main.createSmsTransaction();
 
         try {
             gw.process(sms);
 //            if (!sms.isSuccessful()) {
-                System.out.println("================== RESULT ==================");
-                System.out.println("Is successful :" + sms.isSuccessful());
+            System.out.println("================== RESULT ==================");
+            System.out.println("Is successful :" + sms.isSuccessful());
+            if (sms.isSuccessful()) {
+                System.out.println(sms.getResponse().getGateway().getRedirectUrl());
+            } else {
                 System.out.println(sms.getError().getMessage());
-  //          }
+            }
+            //          }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ValidationException e) {
@@ -76,7 +79,8 @@ public class Main {
                 .setOrderDescription("Money for Trump")
                 .setOrderMerchantTransactionId(UUID.randomUUID().toString())
                 .setMoneyAmount(1000)
-                .setMoneyCurrency("EUR")
+//                .setMoneyCurrency("EUR")
+                .setMoneyCurrency("TTT")
                 .setCustomerBillingAddress(address)
                 .setCustomerShippingAddress(address)
                 .setCustomerPhone("25252525")

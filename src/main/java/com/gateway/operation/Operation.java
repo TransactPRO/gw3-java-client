@@ -53,6 +53,6 @@ public abstract class Operation implements Operable {
      * @return
      */
     public Error getError() {
-        return response != null ? getError() : null;
+        return response != null ? response.getError() : null;
     }
 }

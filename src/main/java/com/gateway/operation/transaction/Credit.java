@@ -18,6 +18,6 @@ public class Credit extends Operation implements Transaction<Credit> {
 
     @Override
     public Operation getOperation() {
-        return null;
+        return this;
     }
 }
