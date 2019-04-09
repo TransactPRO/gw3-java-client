@@ -61,7 +61,23 @@ class GatewayTest {
 
     @ParameterizedTest
     @MethodSource("processParameters")
-    void process(String body, boolean success, String transactionId, String redirectUrl, String errorMessage, Status status) throws NoSuchFieldException, IOException {
+    void process(
+            String body,
+            boolean success,
+            String transactionId,
+            String redirectUrl,
+            String errorMessage,
+            Status status,
+            Integer acquirerDetailsEciSLi,
+            String acquirerTerminalId,
+            String acquirerTransactionId,
+            String acquirerResultCode,
+            String acquirerStatusText,
+            String acquirerStatusDescription,
+            Integer errorCode,
+            Integer gatewayStatusCode,
+            String gatewayStatusText
+    ) throws NoSuchFieldException, IOException {
 
         Sms sms = new Sms();
         Validator validator = mock(Validator.class);
@@ -86,33 +102,80 @@ class GatewayTest {
         Assertions.assertEquals(redirectUrl, sms.getGatewayRedirectUrl());
         Assertions.assertEquals(errorMessage, sms.getErrorMessage());
         Assertions.assertEquals(status, sms.status());
+        Assertions.assertEquals(acquirerDetailsEciSLi, sms.getAcquirerDetailsEciSLi());
+        Assertions.assertEquals(acquirerTerminalId, sms.getAcquirerDetailsTerminalId());
+        Assertions.assertEquals(acquirerTransactionId, sms.getAcquirerDetailsTransactionId());
+        Assertions.assertEquals(acquirerResultCode, sms.getAcquirerDetailsResultCode());
+        Assertions.assertEquals(acquirerStatusText, sms.getAcquirerDetailsStatusText());
+        Assertions.assertEquals(acquirerStatusDescription, sms.getAcquirerDetailsStatusDescription());
+        Assertions.assertEquals(errorCode, sms.getErrorCode());
+        Assertions.assertEquals(gatewayStatusCode, sms.getGatewayStatusCode());
+        Assertions.assertEquals(gatewayStatusText, sms.getGatewayStatusText());
+
+//        detailsEciSLi
+//        terminalId
+//        transactionId
+//        resultCode
+//        statusText
+//        statusDescription
+//        errorCode
+//        statusCode
+//        statusText
+
     }
 
     private static Stream processParameters() {
         return Stream.of(
                 Arguments.of(
-                        "{\"acquirer-details\":{},\"error\":{},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"redirect-url\":\"https://success.url.com/\",\"status-code\":30,\"status-text\":\"INSIDE FORM URL SENT\"},\"warnings\":[]}",
-                        true,
-                        "51f5171b",
-                        "https://success.url.com/",
-                        null,
-                        Status.CARD_FORM_URL_SENT
+                        /* body */ "{\"acquirer-details\":{},\"error\":{},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"redirect-url\":\"https://success.url.com/\",\"status-code\":30,\"status-text\":\"INSIDE FORM URL SENT\"},\"warnings\":[]}",
+                        /* is successful */ true,
+                        /* transactionId */ "51f5171b",
+                        /* redirectUrl */ "https://success.url.com/",
+                        /* errorMessage */ null,
+                        /* status enum */ Status.CARD_FORM_URL_SENT
+                        /* acquirerDetailsEciSLi */
+                        /* acquirerTerminalId */
+                        /* acquirerTransactionId */
+                        /* acquirerResultCode */
+                        /* acquirerStatusText */
+                        /* acquirerStatusDescription */
+                        /* errorCode */
+                        /* gatewayStatusCode */
+                        /* gatewayStatusText */
                 ),
                 Arguments.of(
-                        "{\"acquirer-details\":{},\"error\":{\"code\":1100,\"message\":\"Invalid input data provided. Failed assertion\"},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"status-code\":19,\"status-text\":\"VALIDATION FAILED\"},\"warnings\":[]}",
-                        false,
-                        "51f5171b",
-                        null,
-                        "Invalid input data provided. Failed assertion",
-                        Status.BR_VALIDATION_FAILED
+                        /* body */ "{\"acquirer-details\":{},\"error\":{\"code\":1100,\"message\":\"Invalid input data provided. Failed assertion\"},\"gw\":{\"gateway-transaction-id\":\"51f5171b\",\"status-code\":19,\"status-text\":\"VALIDATION FAILED\"},\"warnings\":[]}",
+                        /* is successful */ false,
+                        /* transactionId */"51f5171b",
+                        /* redirectUrl */ null,
+                        /* errorMessage */ "Invalid input data provided. Failed assertion",
+                        /* status enum */ Status.BR_VALIDATION_FAILED
+                        /* acquirerDetailsEciSLi */
+                        /* acquirerTerminalId */
+                        /* acquirerTransactionId */
+                        /* acquirerResultCode */
+                        /* acquirerStatusText */
+                        /* acquirerStatusDescription */
+                        /* errorCode */
+                        /* gatewayStatusCode */
+                        /* gatewayStatusText */
                 ),
                 Arguments.of(
-                        "",
-                        false,
-                        null,
-                        null,
-                        null,
-                        null
+                        /* body */ "",
+                        /* is successful */ false,
+                        /* transactionId */ null,
+                        /* redirectUrl */ null,
+                        /* errorMessage */ null,
+                        /* status enum */ null,
+                        /* acquirerDetailsEciSLi */ null,
+                        /* acquirerTerminalId */ null,
+                        /* acquirerTransactionId */ null,
+                        /* acquirerResultCode */ null,
+                        /* acquirerStatusText */ null,
+                        /* acquirerStatusDescription */ null,
+                        /* errorCode */ null,
+                        /* gatewayStatusCode */ null,
+                        /* gatewayStatusText */ null
                 )
         );
     }

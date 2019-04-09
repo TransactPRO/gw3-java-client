@@ -27,7 +27,7 @@ public abstract class Operation implements Operable, ResponseInterface {
     }
 
     /**
-     * Default method to check response validity.
+     * Default method to check response validity. Checks that response is set and there is no error code in it.
      *
      * @return
      */

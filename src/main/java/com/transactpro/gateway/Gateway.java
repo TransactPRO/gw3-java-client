@@ -35,15 +35,27 @@ public class Gateway {
     private Gson jsonParser;
     private Validator validator;
 
+    /**
+     * Main gateway constructor. Is used always. Builds required libraries for gateway work.
+     *
+     * @param accountGuid
+     * @param secretKey
+     */
     public Gateway(String accountGuid, String secretKey) {
         this.authorization = new Authorization(accountGuid, secretKey);
         prepare();
     }
 
+    /**
+     * Constructor calls main gateway constructor,
+     *
+     * @param accountGuid
+     * @param secretKey
+     * @param url
+     */
     public Gateway(String accountGuid, String secretKey, String url) {
+        this(accountGuid, secretKey);
         this.url = url;
-        this.authorization = new Authorization(accountGuid, secretKey);
-        prepare();
     }
 
     /**
