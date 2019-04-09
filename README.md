@@ -36,9 +36,9 @@ Available operations:
   
 ### Basic usage
 ```java
-import com.gateway.Gateway;
-import com.gateway.model.request.data.general.customer.Address;
-import com.gateway.operation.transaction.Sms;
+import Gateway;
+import Address;
+import Sms;
 
 public class Main {
     
