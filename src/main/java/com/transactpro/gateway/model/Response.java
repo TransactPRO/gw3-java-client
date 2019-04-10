@@ -1,19 +1,33 @@
 package com.transactpro.gateway.model;
 
-import com.transactpro.gateway.model.response.AcquirerDetails;
-import com.transactpro.gateway.model.response.Error;
-import com.transactpro.gateway.model.response.Gateway;
-import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
+import java.util.Map;
+
+/**
+ * Carry all necessary data of gateway response.
+ */
 @Getter
 public class Response {
 
-    @SerializedName("gw")
-    private Gateway gateway;
-    private Error error;
-    private AcquirerDetails acquirerDetails;
-    private String msg;
-    private Integer status;
+    /**
+     * Response HTTP status code
+     */
+    private Integer statusCode;
 
+    /**
+     * Response body - JSON string
+     */
+    private String body;
+
+    /**
+     * Response headers
+     */
+    private Map<String, String> headers;
+
+    public Response(Integer statusCode, String body, Map<String, String> headers) {
+        this.statusCode = statusCode;
+        this.body = body;
+        this.headers = headers;
+    }
 }

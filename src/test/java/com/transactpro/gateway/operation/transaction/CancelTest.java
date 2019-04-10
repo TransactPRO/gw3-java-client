@@ -44,7 +44,9 @@ class CancelTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-       operation.setCommandGatewayTransactionId("5d554f1");
+       operation.setCommandGatewayTransactionId("5d554f1")
+               .setCommandFormId("ffaw3a")
+               .setCommandTerminalMid("ffaw3a");
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

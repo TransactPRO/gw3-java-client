@@ -3,7 +3,6 @@ package com.transactpro.gateway.operation;
 
 import com.transactpro.gateway.model.Request;
 import com.transactpro.gateway.model.Response;
-import com.transactpro.gateway.operation.interfaces.response.ResponseInterface;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import javax.validation.groups.Default;
 /**
  * Base class for operations - info, transaction, verify
  */
-public abstract class Operation implements Operable, ResponseInterface {
+public abstract class Operation implements Operable {
 
     @Getter
     protected Request request;
@@ -27,15 +26,6 @@ public abstract class Operation implements Operable, ResponseInterface {
     }
 
     /**
-     * Default method to check response validity. Checks that response is set and there is no error code in it.
-     *
-     * @return
-     */
-    public boolean isSuccessful() {
-        return response != null && getErrorCode() == null;
-    }
-
-    /**
      * Default validation group
      *
      * @return validation group for Javax validation
@@ -43,19 +33,5 @@ public abstract class Operation implements Operable, ResponseInterface {
     @Override
     public Class getValidationGroups() {
         return Default.class;
-    }
-
-    /**
-     * Map Status enum to gateway response code.
-     *
-     * @return Status enum or null
-     */
-    public Status status() {
-        if (response != null) {
-            if (response.getGateway() != null) {
-                return Status.getByCode(response.getGateway().getStatusCode());
-            }
-        }
-        return null;
     }
 }

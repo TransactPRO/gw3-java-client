@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -19,6 +20,8 @@ import org.apache.http.util.EntityUtils;
 
 import javax.validation.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -123,8 +126,14 @@ public class Gateway {
 
         HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
         String responseBody = EntityUtils.toString(httpResponse.getEntity());
+        Integer statusCode = httpResponse.getStatusLine().getStatusCode();
+        Map<String, String> headers = new HashMap<>();
 
-        operation.setResponse(jsonParser.fromJson(responseBody, Response.class));
+        for (Header header : httpResponse.getAllHeaders()) {
+            headers.put(header.getName(), header.getValue());
+        }
+
+        operation.setResponse(new Response(statusCode, responseBody, headers));
     }
 
 

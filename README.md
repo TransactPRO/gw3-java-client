@@ -80,6 +80,11 @@ public class Main {
         } catch (ValidationException e) {
          // Do something with ValidationException
         }
+        
+        // Results
+        sms.getResponse().getBody();
+        sms.getResponse().getStatusCode();
+        sms.getResponse().getHeaders();
     }
 }
 ```
