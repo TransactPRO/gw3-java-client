@@ -41,23 +41,33 @@ public class Gateway {
     /**
      * Main gateway constructor. Is used always. Builds required libraries for gateway work.
      *
-     * @param accountGuid
-     * @param secretKey
+     * @param authorization
      */
-    public Gateway(String accountGuid, String secretKey) {
-        authorization = new Authorization(accountGuid, secretKey);
+    public Gateway(Authorization authorization) {
+        this.authorization = authorization;
         prepare();
     }
 
     /**
-     * Constructor calls main gateway constructor,
+     * Constructor for account and secret key authorization
      *
      * @param accountGuid
      * @param secretKey
      * @param url
      */
     public Gateway(String accountGuid, String secretKey, String url) {
-        this(accountGuid, secretKey);
+        this(new Authorization(accountGuid, secretKey));
+        this.url = url;
+    }
+
+    /**
+     * Constructor for session id authorization.
+     *
+     * @param sessionId
+     * @param url
+     */
+    public Gateway(String sessionId, String url) {
+        this(new Authorization(sessionId));
         this.url = url;
     }
 

@@ -16,4 +16,8 @@ public class Authorization {
         this.accountGuid = accountGuid;
         this.secretKey = secretKey;
     }
+
+    public Authorization(String sessionId) {
+        this.sessionId = sessionId;
+    }
 }

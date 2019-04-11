@@ -32,21 +32,10 @@ import static org.mockito.Mockito.when;
 
 class GatewayTest {
 
-    private Gateway gw;
-
-    @BeforeEach
-    void setUp() {
-        gw = new Gateway("dsfw3f34fsdf-GUID", "very,very_secret_key", "http://some-fake-url33-should-not-work.com/");
-    }
-
-    @AfterEach
-    void tearDown() {
-        gw = null;
-    }
-
     @Test
     void processErrors() throws NoSuchFieldException {
 
+        Gateway gw = new Gateway("Adw2DAvvsessionId", "http://some-fake-url33-should-not-work.com/");
         Sms sms = new Sms();
         assertThrows(ValidationException.class, () -> gw.process(sms));
 
@@ -63,6 +52,7 @@ class GatewayTest {
     @MethodSource("processParameters")
     void process(String body, Integer statusCode, String headerName, String headerValue) throws NoSuchFieldException, IOException {
 
+        Gateway gw = new Gateway("dsfw3f34fsdf-GUID", "very,very_secret_key", "http://some-fake-url33-should-not-work.com/");
         Sms sms = new Sms();
         Validator validator = mock(Validator.class);
 
