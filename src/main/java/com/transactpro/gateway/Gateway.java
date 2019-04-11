@@ -111,7 +111,7 @@ public class Gateway {
      * Provide main gateway functionality. Validate operation and send json of model to operation endpoint.
      * On success set parsed response body to operation response.
      *
-     * @param operation process to.
+     * @param operation to process.
      * @throws ValidationException when operation can't pass validation
      * @throws IOException         when http request is faulty
      */
