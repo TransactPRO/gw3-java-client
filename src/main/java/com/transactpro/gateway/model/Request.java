@@ -22,6 +22,6 @@ public class Request {
     private Data data;
 
     public Request() {
-        this.data = new Data();
+        data = new Data();
     }
 }

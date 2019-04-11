@@ -45,7 +45,7 @@ public class Gateway {
      * @param secretKey
      */
     public Gateway(String accountGuid, String secretKey) {
-        this.authorization = new Authorization(accountGuid, secretKey);
+        authorization = new Authorization(accountGuid, secretKey);
         prepare();
     }
 

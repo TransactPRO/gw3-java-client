@@ -21,7 +21,7 @@ public class General {
     private Order order;
 
     public General() {
-        this.customer = new Customer();
-        this.order = new Order();
+        customer = new Customer();
+        order = new Order();
     }
 }
