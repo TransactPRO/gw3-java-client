@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Getter
-@Setter()
+@Setter
 @Accessors(chain = true)
 public class Authorization {
     private String accountGuid;
