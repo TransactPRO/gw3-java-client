@@ -1,9 +1,6 @@
 package com.transactpro.gateway.model.request;
 
-import com.transactpro.gateway.model.request.data.Command;
-import com.transactpro.gateway.model.request.data.General;
-import com.transactpro.gateway.model.request.data.Money;
-import com.transactpro.gateway.model.request.data.PaymentMethod;
+import com.transactpro.gateway.model.request.data.*;
 import com.transactpro.gateway.model.request.data.System;
 import com.transactpro.gateway.validation.base.DataGroup;
 import com.google.gson.annotations.SerializedName;
@@ -32,7 +29,7 @@ public class Data {
     @SerializedName("money-data")
     private Money money;
     @Valid
-    private com.transactpro.gateway.model.request.data.System system;
+    private System system;
 
     @CreditCardNumber(ignoreNonDigitCharacters = true)
     @NotNull(groups = {DataGroup.class})
