@@ -5,7 +5,7 @@ import com.transactpro.gateway.operation.interfaces.request.InfoInterface;
 
 public class Recurrents extends Operation implements InfoInterface<Recurrents> {
 
-    public final String uri = "/recurrents";
+    private final String uri = "/recurrents";
 
     public String getRequestUri() {
         return uri;

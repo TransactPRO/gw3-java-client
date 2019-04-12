@@ -7,7 +7,7 @@ import com.transactpro.gateway.validation.base.CommandTransactionIdGroup;
 
 public class Cancel extends Operation implements CommandInterface<Cancel>, OrderInterface<Cancel> {
 
-    public final String uri = "/cancel";
+    private final String uri = "/cancel";
 
     public String getRequestUri() {
         return uri;

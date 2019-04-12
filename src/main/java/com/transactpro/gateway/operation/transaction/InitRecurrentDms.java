@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class InitRecurrentDms extends Operation implements TransactionInterface<InitRecurrentDms> {
 
-    public final String uri = "/recurrent/dms/init";
+    private final String uri = "/recurrent/dms/init";
 
     public String getRequestUri() {
         return uri;

@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.CommandAmountGroup;
 
 public class Refund extends Operation implements ChargeInterface<Refund> {
 
-    public final String uri = "/refund";
+    private final String uri = "/refund";
 
     public String getRequestUri() {
         return uri;

@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class DmsHold extends Operation implements TransactionInterface<DmsHold> {
 
-    public final String uri = "/hold-dms";
+    private final String uri = "/hold-dms";
 
     @Override
     public Operation getOperation() {

@@ -41,7 +41,7 @@ public class Gateway {
     /**
      * Main gateway constructor. Is used always. Builds required libraries for gateway work.
      *
-     * @param authorization
+     * @param authorization gateway authorization
      */
     public Gateway(Authorization authorization) {
         this.authorization = authorization;
@@ -51,9 +51,9 @@ public class Gateway {
     /**
      * Constructor for account and secret key authorization
      *
-     * @param accountGuid
-     * @param secretKey
-     * @param url
+     * @param accountGuid gateway authorization GUID
+     * @param secretKey gateway authorization secret key
+     * @param url gateway base url
      */
     public Gateway(String accountGuid, String secretKey, String url) {
         this(new Authorization(accountGuid, secretKey));
@@ -63,8 +63,8 @@ public class Gateway {
     /**
      * Constructor for session id authorization.
      *
-     * @param sessionId
-     * @param url
+     * @param sessionId gateway authorization session id
+     * @param url gateway base url
      */
     public Gateway(String sessionId, String url) {
         this(new Authorization(sessionId));
@@ -150,8 +150,8 @@ public class Gateway {
     /**
      * Build GET or POST request from operation data for HttpClient
      *
-     * @param operation
-     * @return
+     * @param operation transaction or another operation
+     * @return request for http client
      */
     private HttpUriRequest buildRequest(Operation operation) {
 

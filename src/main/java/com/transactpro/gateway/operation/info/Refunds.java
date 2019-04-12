@@ -5,7 +5,7 @@ import com.transactpro.gateway.operation.interfaces.request.InfoInterface;
 
 public class Refunds extends Operation implements InfoInterface<Refunds> {
 
-    public final String uri = "/refunds";
+    private final String uri = "/refunds";
 
     public String getRequestUri() {
         return uri;

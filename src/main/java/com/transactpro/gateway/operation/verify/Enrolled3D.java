@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.EnrollGroup;
 
 public class Enrolled3D extends Operation implements DataInterface<Enrolled3D> {
 
-    public final String uri = "/verify/3d-enrollment";
+    private final String uri = "/verify/3d-enrollment";
 
     public String getRequestUri() {
         return uri;

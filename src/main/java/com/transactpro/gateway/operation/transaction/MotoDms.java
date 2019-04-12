@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class MotoDms extends Operation implements TransactionInterface<MotoDms> {
 
-    public final String uri = "/moto/dms";
+    private final String uri = "/moto/dms";
 
     public String getRequestUri() {
         return uri;

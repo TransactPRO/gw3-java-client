@@ -5,6 +5,7 @@ import com.transactpro.gateway.operation.interfaces.OperationInterface;
 
 public interface SystemInterface<T> extends OperationInterface {
 
+    @SuppressWarnings("unchecked")
     default T setSystem(System system) {
         getOperation().getRequest().getData().setSystem(system);
         return (T) getOperation();

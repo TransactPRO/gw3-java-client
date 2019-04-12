@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.CommandAmountGroup;
 
 public class RecurrentSms extends Operation implements ChargeInterface<RecurrentSms> {
 
-    public final String uri = "/recurrent/sms";
+    private final String uri = "/recurrent/sms";
 
     public String getRequestUri() {
         return uri;

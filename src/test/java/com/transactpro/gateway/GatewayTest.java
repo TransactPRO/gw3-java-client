@@ -5,9 +5,7 @@ import com.transactpro.gateway.operation.transaction.Sms;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -42,6 +40,7 @@ class GatewayTest {
         Validator validator = mock(Validator.class);
 
         HashSet hs = new HashSet<ConstraintViolation<Request>>();
+        //noinspection unchecked
         when(validator.validate(sms, sms.getValidationGroups())).thenReturn(hs);
         FieldSetter.setField(gw, gw.getClass().getDeclaredField("validator"), validator);
 
@@ -57,6 +56,7 @@ class GatewayTest {
         Validator validator = mock(Validator.class);
 
         HashSet hs = new HashSet<ConstraintViolation<Request>>();
+        //noinspection unchecked
         when(validator.validate(sms, sms.getValidationGroups())).thenReturn(hs);
 
 

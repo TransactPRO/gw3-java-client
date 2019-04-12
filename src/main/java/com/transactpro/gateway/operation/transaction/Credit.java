@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class Credit extends Operation implements TransactionInterface<Credit> {
 
-    public final String uri = "/credit";
+    private final String uri = "/credit";
 
     public String getRequestUri() {
         return uri;

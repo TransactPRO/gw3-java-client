@@ -17,7 +17,7 @@ class Enrolled3DTest {
     private Enrolled3D operation;
 
     @BeforeEach
-    protected void setUp() {
+    void setUp() {
         operation = new Enrolled3D();
     }
 

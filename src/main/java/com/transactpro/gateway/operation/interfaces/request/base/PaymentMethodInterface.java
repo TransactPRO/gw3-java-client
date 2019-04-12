@@ -5,6 +5,7 @@ import com.transactpro.gateway.operation.interfaces.OperationInterface;
 
 public interface PaymentMethodInterface<T> extends OperationInterface {
 
+    @SuppressWarnings("unchecked")
     default T setPayment(PaymentMethod paymentMethod) {
         getOperation().getRequest().getData().setPaymentMethod(paymentMethod);
         return (T) getOperation();

@@ -5,7 +5,7 @@ import com.transactpro.gateway.operation.interfaces.request.InfoInterface;
 
 public class Result extends Operation implements InfoInterface<Result> {
 
-    public final String uri = "/result";
+    private final String uri = "/result";
 
     public String getRequestUri() {
         return uri;

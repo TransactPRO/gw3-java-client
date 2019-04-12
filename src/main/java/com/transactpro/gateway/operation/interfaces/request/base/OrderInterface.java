@@ -5,6 +5,7 @@ import com.transactpro.gateway.operation.interfaces.OperationInterface;
 
 public interface OrderInterface<T> extends OperationInterface {
 
+    @SuppressWarnings("unchecked")
     default T setOrder(Order order) {
         getOperation().getRequest().getData().getGeneral().setOrder(order);
         return (T) getOperation();

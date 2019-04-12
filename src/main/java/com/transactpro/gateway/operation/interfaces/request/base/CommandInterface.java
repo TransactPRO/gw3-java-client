@@ -5,6 +5,7 @@ import com.transactpro.gateway.operation.interfaces.OperationInterface;
 
 public interface CommandInterface<T> extends OperationInterface {
 
+    @SuppressWarnings("unchecked")
     default T setCommand(Command command) {
         getOperation().getRequest().getData().setCommand(command);
         return (T) getOperation();

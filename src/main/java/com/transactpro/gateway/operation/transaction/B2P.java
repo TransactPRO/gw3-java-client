@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class B2P extends Operation implements TransactionInterface<B2P> {
 
-    public final String uri = "/b2p";
+    private final String uri = "/b2p";
 
     public String getRequestUri() {
         return uri;

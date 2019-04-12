@@ -6,7 +6,7 @@ import com.transactpro.gateway.operation.interfaces.request.InfoInterface;
 
 public class Status extends Operation implements InfoInterface<Status> {
 
-    public final String uri = "/status";
+    private final String uri = "/status";
 
     public String getRequestUri() {
         return uri;

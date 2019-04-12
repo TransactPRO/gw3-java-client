@@ -7,7 +7,7 @@ import com.transactpro.gateway.validation.base.CommandTransactionIdGroup;
 
 public class Reversal extends Operation implements CommandInterface<Reversal>, OrderInterface<Reversal> {
 
-    public final String uri = "/reversal";
+    private final String uri = "/reversal";
 
     public String getRequestUri() {
         return uri;

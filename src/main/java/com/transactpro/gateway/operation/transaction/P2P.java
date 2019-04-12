@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class P2P extends Operation implements TransactionInterface<P2P> {
 
-    public final String uri = "/p2p";
+    private final String uri = "/p2p";
 
     public String getRequestUri() {
         return uri;

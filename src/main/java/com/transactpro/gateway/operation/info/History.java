@@ -5,7 +5,7 @@ import com.transactpro.gateway.operation.interfaces.request.InfoInterface;
 
 public class History extends Operation implements InfoInterface<History> {
 
-    public final String uri = "/history";
+    private final String uri = "/history";
 
     public String getRequestUri() {
         return uri;

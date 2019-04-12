@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.CommandAmountGroup;
 
 public class DmsCharge extends Operation implements ChargeInterface<DmsCharge> {
 
-    public final String uri = "/charge-dms";
+    private final String uri = "/charge-dms";
 
     public String getRequestUri() {
         return uri;

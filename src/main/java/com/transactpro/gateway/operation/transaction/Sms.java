@@ -6,7 +6,7 @@ import com.transactpro.gateway.validation.TransactionGroup;
 
 public class Sms extends Operation implements TransactionInterface<Sms> {
 
-    public final String uri = "/sms";
+    private final String uri = "/sms";
 
     public String getRequestUri() {
         return uri;
