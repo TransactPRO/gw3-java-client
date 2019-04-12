@@ -2,7 +2,7 @@ package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.operation.Operation;
 import com.transactpro.gateway.operation.interfaces.request.TransactionInterface;
-import com.transactpro.gateway.validation.MotoGroup;
+import com.transactpro.gateway.validation.TransactionGroup;
 
 public class MotoDms extends Operation implements TransactionInterface<MotoDms> {
 
@@ -13,7 +13,7 @@ public class MotoDms extends Operation implements TransactionInterface<MotoDms> 
     }
 
     public Class getValidationGroups() {
-        return MotoGroup.class;
+        return TransactionGroup.class;
     }
 
     @Override

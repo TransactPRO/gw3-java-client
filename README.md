@@ -71,8 +71,8 @@ public class Main {
          .setCustomerPhone("81111111111")
          .setCustomerEmail("test@test.io")
          .setCustomerBirthDate("1999/01/25")
-         .setSystemUserIp("127.0.0.1");
- 
+         .setSystemUserIp("127.0.0.1");       
+        
         try {
          gw.process(sms);
         } catch (IOException e) {

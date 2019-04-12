@@ -1,23 +1,18 @@
 package com.transactpro.gateway.operation.interfaces.request.base;
 
+import com.transactpro.gateway.model.request.data.general.Customer;
 import com.transactpro.gateway.model.request.data.general.customer.Address;
 import com.transactpro.gateway.operation.interfaces.OperationInterface;
 
 public interface CustomerInterface<T> extends OperationInterface {
 
-    default T setCustomerEmail(String email) {
-        getOperation().getRequest().getData().getGeneral().getCustomer().setEmail(email);
+    default T setCustomer(Customer customer) {
+        getOperation().getRequest().getData().getGeneral().setCustomer(customer);
         return (T) getOperation();
     }
 
-    default T setCustomerBirthDate(String birthDate) {
-        getOperation().getRequest().getData().getGeneral().getCustomer().setBirthDate(birthDate);
-        return (T) getOperation();
-    }
-
-    default T setCustomerPhone(String phone) {
-        getOperation().getRequest().getData().getGeneral().getCustomer().setPhone(phone);
-        return (T) getOperation();
+    default Customer getCustomer() {
+        return getOperation().getRequest().getData().getGeneral().getCustomer();
     }
 
     default T setCustomerBillingAddress(Address address) {
@@ -25,8 +20,16 @@ public interface CustomerInterface<T> extends OperationInterface {
         return (T) getOperation();
     }
 
+    default Address getCustomerBillingAddress() {
+        return getOperation().getRequest().getData().getGeneral().getCustomer().getBillingAddress();
+    }
+
     default T setCustomerShippingAddress(Address address) {
         getOperation().getRequest().getData().getGeneral().getCustomer().setShippingAddress(address);
         return (T) getOperation();
+    }
+
+    default Address getCustomerShippingAddress() {
+        return getOperation().getRequest().getData().getGeneral().getCustomer().getShippingAddress();
     }
 }

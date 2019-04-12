@@ -2,7 +2,7 @@ package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.operation.Operation;
 import com.transactpro.gateway.operation.interfaces.request.ChargeInterface;
-import com.transactpro.gateway.validation.DmsChargeGroup;
+import com.transactpro.gateway.validation.CommandAmountGroup;
 
 public class DmsCharge extends Operation implements ChargeInterface<DmsCharge> {
 
@@ -13,7 +13,7 @@ public class DmsCharge extends Operation implements ChargeInterface<DmsCharge> {
     }
 
     public Class getValidationGroups() {
-        return DmsChargeGroup.class;
+        return CommandAmountGroup.class;
     }
 
     @Override

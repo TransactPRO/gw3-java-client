@@ -1,6 +1,7 @@
 package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.model.Request;
+import com.transactpro.gateway.model.request.data.Money;
 import com.transactpro.gateway.model.request.data.general.customer.Address;
 import com.transactpro.gateway.validation.TransactionGroup;
 import org.junit.jupiter.api.AfterEach;
@@ -57,24 +58,13 @@ class DmsHoldTest {
                 .setStreet("Rue Garibaldi")
                 .setZip("71100");
 
-        Map<String, String> meta = new HashMap<>();
-        meta.put("key", "value");
+        Money money = new Money()
+                .setAmount(100)
+                .setCurrency("EUR");
 
-        operation.setOrderMerchantUrl("https://domain.com")
-                .setOrderDescription("Cheers")
-                .setOrderMerchantTransactionId(UUID.randomUUID().toString())
-                .setMoneyAmount(1000)
-                .setMoneyCurrency("EUR")
+        operation.setMoney(money)
                 .setCustomerBillingAddress(address)
-                .setCustomerShippingAddress(address)
-                .setCustomerPhone("25252525")
-                .setCustomerEmail("test@test.domain")
-                .setCustomerBirthDate("29/02")
-                .setSystemUserIp("127.0.0.1")
-                .setSystemForwardedFor("127.0.0.1")
-                .setOrderId("OrderId")
-                .setOrderMerchantId("test id")
-                .setOrderMeta(meta);
+                .setCustomerShippingAddress(address);
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

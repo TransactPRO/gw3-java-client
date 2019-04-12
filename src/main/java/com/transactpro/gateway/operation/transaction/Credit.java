@@ -2,7 +2,7 @@ package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.operation.Operation;
 import com.transactpro.gateway.operation.interfaces.request.TransactionInterface;
-import com.transactpro.gateway.validation.CreditGroup;
+import com.transactpro.gateway.validation.TransactionGroup;
 
 public class Credit extends Operation implements TransactionInterface<Credit> {
 
@@ -13,7 +13,7 @@ public class Credit extends Operation implements TransactionInterface<Credit> {
     }
 
     public Class getValidationGroups() {
-        return CreditGroup.class;
+        return TransactionGroup.class;
     }
 
     @Override

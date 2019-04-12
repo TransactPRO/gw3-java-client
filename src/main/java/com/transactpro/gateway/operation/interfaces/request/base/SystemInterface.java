@@ -1,16 +1,16 @@
 package com.transactpro.gateway.operation.interfaces.request.base;
 
+import com.transactpro.gateway.model.request.data.System;
 import com.transactpro.gateway.operation.interfaces.OperationInterface;
 
 public interface SystemInterface<T> extends OperationInterface {
 
-    default T setSystemUserIp(String ip) {
-        getOperation().getRequest().getData().getSystem().setUserIp(ip);
+    default T setSystem(System system) {
+        getOperation().getRequest().getData().setSystem(system);
         return (T) getOperation();
     }
 
-    default T setSystemForwardedFor(String xForwardedFor) {
-        getOperation().getRequest().getData().getSystem().setXForwardedFor(xForwardedFor);
-        return (T) getOperation();
+    default System getSystem() {
+        return getOperation().getRequest().getData().getSystem();
     }
 }

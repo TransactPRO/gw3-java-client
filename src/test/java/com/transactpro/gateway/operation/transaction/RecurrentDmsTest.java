@@ -1,6 +1,8 @@
 package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.model.Request;
+import com.transactpro.gateway.model.request.data.Command;
+import com.transactpro.gateway.model.request.data.Money;
 import com.transactpro.gateway.validation.CommandAmountGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,9 +46,16 @@ class RecurrentDmsTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-        operation.setMoneyAmount(100)
-            .setMoneyCurrency("EUR")
-            .setCommandGatewayTransactionId("fawF34");
+        Command command = new Command()
+                .setGatewayTransactionId("5d554f1")
+                .setFormId("ffaw3a")
+                .setTerminalMid("ffaw3b");
+
+        Money money = new Money()
+                .setAmount(100);
+
+        operation.setCommand(command)
+                .setMoney(money);
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

@@ -2,7 +2,7 @@ package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.operation.Operation;
 import com.transactpro.gateway.operation.interfaces.request.TransactionInterface;
-import com.transactpro.gateway.validation.ToPersonGroup;
+import com.transactpro.gateway.validation.TransactionGroup;
 
 public class B2P extends Operation implements TransactionInterface<B2P> {
 
@@ -13,7 +13,7 @@ public class B2P extends Operation implements TransactionInterface<B2P> {
     }
 
     public Class getValidationGroups() {
-        return ToPersonGroup.class;
+        return TransactionGroup.class;
     }
 
     @Override

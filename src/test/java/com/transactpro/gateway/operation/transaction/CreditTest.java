@@ -1,7 +1,8 @@
 package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.model.Request;
-import com.transactpro.gateway.validation.CreditGroup;
+import com.transactpro.gateway.model.request.data.Money;
+import com.transactpro.gateway.validation.TransactionGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class CreditTest {
 
     @Test
     void getValidationGroups() {
-        assertEquals(CreditGroup.class, operation.getValidationGroups());
+        assertEquals(TransactionGroup.class, operation.getValidationGroups());
     }
 
     @Test
@@ -44,10 +45,11 @@ class CreditTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-        operation.setMoneyAmount(100)
-                .setMoneyCurrency("EUR")
-                .setPaymentMethodExpMmYy("12/18")
-                .setPaymentMethodPan("0000-0000-0000-0000");
+        operation.setMoney(
+                new Money()
+                        .setAmount(100)
+                        .setCurrency("EUR")
+        );
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

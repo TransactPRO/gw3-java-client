@@ -1,7 +1,8 @@
 package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.model.Request;
-import com.transactpro.gateway.validation.ToPersonGroup;
+import com.transactpro.gateway.model.request.data.Money;
+import com.transactpro.gateway.validation.TransactionGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ class B2PTest {
 
     @Test
     void getValidationGroups() {
-        assertEquals(ToPersonGroup.class, operation.getValidationGroups());
+        assertEquals(TransactionGroup.class, operation.getValidationGroups());
     }
 
     @Test
@@ -45,12 +46,11 @@ class B2PTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-        operation.setCustomerBirthDate("20.20.00")
-                .setMoneyAmount(100)
-                .setMoneyCurrency("EUR")
-                .setOrderRecipientName("John Smith")
-                .setPaymentMethodPan("0000-0000-0000-0000")
-                .setPaymentMethodExpMmYy("2020");
+        Money money = new Money()
+                .setAmount(100)
+                .setCurrency("EUR");
+
+        operation.setMoney(money);
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());

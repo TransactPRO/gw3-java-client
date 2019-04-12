@@ -1,6 +1,11 @@
 package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.model.Request;
+import com.transactpro.gateway.model.request.data.Money;
+import com.transactpro.gateway.model.request.data.PaymentMethod;
+import com.transactpro.gateway.model.request.data.System;
+import com.transactpro.gateway.model.request.data.general.Customer;
+import com.transactpro.gateway.model.request.data.general.Order;
 import com.transactpro.gateway.model.request.data.general.customer.Address;
 import com.transactpro.gateway.validation.TransactionGroup;
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +16,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,6 +49,22 @@ class SmsTest {
 
     @Test
     void validOperation() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validatorFactory.close();
+
+        Money money = new Money()
+                .setAmount(100)
+                .setCurrency("EUR");
+
+        operation.setMoney(money);
+
+        Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
+        assertTrue(constraintViolations.isEmpty());
+    }
+
+    @Test
+    void validOperationAllFields() {
         Address address = new Address()
                 .setCity("Chalon-sur-Saône")
                 .setCountry("FR")
@@ -51,25 +74,47 @@ class SmsTest {
                 .setStreet("Rue Garibaldi")
                 .setZip("71100");
 
-        operation.setOrderMerchantUrl("https://domain.com")
-                .setOrderDescription("Cheers")
-                .setOrderMerchantTransactionId(UUID.randomUUID().toString())
-                .setMoneyAmount(1000)
-                .setMoneyCurrency("EUR")
+        Money money = new Money()
+                .setAmount(100)
+                .setCurrency("EUR");
+
+        Map<String,String> meta = new HashMap<>();
+        meta.put("test", "rest");
+
+        Order order = new Order()
+                .setCustom3dReturnUrl("https://domain.com")
+                .setDescription("Payment")
+                .setId(UUID.randomUUID().toString())
+                .setMerchantId(UUID.randomUUID().toString())
+                .setMerchantReferringName("Test payment")
+                .setMerchantTransactionId(UUID.randomUUID().toString())
+                .setMerchantUrl("https://domain.com/custom-url/")
+                .setMeta(meta)
+                .setRecipientName("John Smith");
+
+        Customer customer = new Customer()
+                .setEmail("test@test.domain")
+                .setBirthDate("01/00")
+                .setPhone("0000000000");
+
+        System system = new System()
+                .setUserIp("127.0.0.1")
+                .setXForwardedFor("127.0.0.1");
+
+        PaymentMethod paymentMethod = new PaymentMethod()
+                .setCardholderName("John Smith")
+                .setCvv("000")
+                .setExpMmYy("12/18")
+                .setPan("0000000000000000");
+
+
+        operation.setCustomer(customer)
                 .setCustomerBillingAddress(address)
                 .setCustomerShippingAddress(address)
-                .setCustomerPhone("25252525")
-                .setCustomerEmail("test@test.domain")
-                .setCustomerBirthDate("29/02")
-                .setSystemUserIp("127.0.0.1")
-                .setOrderId("OrderId")
-                .setOrderCustom3dReturnUrl("https://domain.com/custom-url/")
-                .setOrderRecipientName("John Smith")
-                .setOrderMerchantReferringName("String data")
-                .setPaymentMethodCardholderName("John Smith")
-                .setPaymentMethodCvv("000")
-                .setPaymentMethodExpMmYy("12/18")
-                .setPaymentMethodPan("0000000000000000");
+                .setMoney(money)
+                .setOrder(order)
+                .setPayment(paymentMethod)
+                .setSystem(system);
 
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();

@@ -1,6 +1,7 @@
 package com.transactpro.gateway.operation.transaction;
 
 import com.transactpro.gateway.model.Request;
+import com.transactpro.gateway.model.request.data.Command;
 import com.transactpro.gateway.validation.base.CommandTransactionIdGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,9 +45,12 @@ class CancelTest {
         Validator validator = validatorFactory.getValidator();
         validatorFactory.close();
 
-       operation.setCommandGatewayTransactionId("5d554f1")
-               .setCommandFormId("ffaw3a")
-               .setCommandTerminalMid("ffaw3a");
+        Command command = new Command()
+                .setGatewayTransactionId("5d554f1")
+                .setFormId("ffaw3a")
+                .setTerminalMid("ffaw3b");
+
+        operation.setCommand(command);
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertTrue(constraintViolations.isEmpty());
