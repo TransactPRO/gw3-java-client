@@ -2,6 +2,26 @@
 
 This library provide ability to make requests to Transact Pro Gateway API v3.
 
+### Installation
+
+#### Maven
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.transactpro.gateway/gateway -->
+<dependency>
+    <groupId>com.transactpro.gateway</groupId>
+    <artifactId>gateway</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+#### Gradle
+
+```groovy
+// https://mvnrepository.com/artifact/com.transactpro.gateway/gateway
+compile group: 'com.transactpro.gateway', name: 'gateway', version: '1.0.0'
+```
+
 ## Documentation
 
 This `README` provide introduction to the library usage.
@@ -36,9 +56,15 @@ Available operations:
   
 ### Basic usage
 ```java
-import Gateway;
-import Address;
-import Sms;
+
+import com.transactpro.gateway.Gateway;
+import com.transactpro.gateway.operation.transaction.Sms;
+import com.transactpro.gateway.model.request.data.Money;
+import com.transactpro.gateway.model.request.data.System;
+import com.transactpro.gateway.model.request.data.general.Customer;
+import com.transactpro.gateway.model.request.data.general.Order;
+import com.transactpro.gateway.model.request.data.general.customer.Address;
+
 
 public class Main {
     
