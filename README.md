@@ -53,32 +53,48 @@ public class Main {
         Sms sms = new Sms();
      
         Address address = new Address()
-         .setCity("Paris")
-         .setCountry("FR")
-         .setFlat("33")
-         .setHouse("333")
-         .setState("Paris")
-         .setStreet("Test street")
-         .setZip("781010");
- 
-        sms.setOrderMerchantUrl("https://my-domain.com")
-         .setOrderDescription("Online shop order #33")
-         .setOrderMerchantTransactionId("33")
-         .setMoneyAmount(1000)
-         .setMoneyCurrency("EUR")
-         .setCustomerBillingAddress(address)
-         .setCustomerShippingAddress(address)
-         .setCustomerPhone("81111111111")
-         .setCustomerEmail("test@test.io")
-         .setCustomerBirthDate("1999/01/25")
-         .setSystemUserIp("127.0.0.1");       
+            .setCity("Chalon-sur-Saône")
+            .setCountry("FR")
+            .setFlat("10")
+            .setHouse("10")
+            .setState("France")
+            .setStreet("Rue Garibaldi")
+            .setZip("71100");
+        
+        Money money = new Money()
+                .setAmount(100)
+                .setCurrency("EUR");
+                
+        Order order = new Order()
+                .setCustom3dReturnUrl("https://domain.com")
+                .setDescription("Payment")
+                .setId("Order ID")
+                .setMerchantId("FGSSW2aas")
+                .setMerchantReferringName("Test payment")
+                .setMerchantTransactionId("33")
+                .setMerchantUrl("https://domain.com/custom-url/")
+                .setRecipientName("John Smith");
+        
+        Customer customer = new Customer()
+                .setEmail("test@test.domain")
+                .setBirthDate("01/00");        
+        
+        System system = new System()
+                .setUserIp("127.0.0.1");
+               
+        sms.setCustomer(customer)
+                .setCustomerBillingAddress(address)
+                .setCustomerShippingAddress(address)
+                .setMoney(money)
+                .setOrder(order)
+                .setSystem(system);   
         
         try {
-         gw.process(sms);
+            gw.process(sms);
         } catch (IOException e) {
-         // Do something with IOException
+            // Do something with IOException
         } catch (ValidationException e) {
-         // Do something with ValidationException
+            // Do something with ValidationException
         }
         
         // Results
