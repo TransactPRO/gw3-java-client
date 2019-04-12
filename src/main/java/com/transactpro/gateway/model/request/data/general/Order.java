@@ -26,5 +26,8 @@ public class Order {
     private String recipientName;
     private String merchantReferringName;
     private String custom3dReturnUrl;
-    private Map<String, String> meta;
+    /**
+     * Meta can be anything, that can be serialized to JSON
+     */
+    private Object meta;
 }
