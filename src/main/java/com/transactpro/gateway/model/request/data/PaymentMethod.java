@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Accessors(chain = true)
 public class PaymentMethod {
+
     @CreditCardNumber(ignoreNonDigitCharacters = true)
     @NotNull(groups = PaymentMethodPanExpGroup.class)
     private String pan;

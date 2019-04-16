@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 public class System {
+
     private String userIp;
     private String xForwardedFor;
 }

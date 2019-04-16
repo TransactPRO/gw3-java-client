@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Accessors(chain = true)
 public class Command {
+
     @NotNull(groups = {CommandTransactionIdGroup.class})
     private String gatewayTransactionId;
     private String formId;

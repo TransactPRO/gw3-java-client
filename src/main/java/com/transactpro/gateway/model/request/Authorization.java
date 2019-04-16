@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 public class Authorization {
+
     private String accountGuid;
     private String secretKey;
     private String sessionId;

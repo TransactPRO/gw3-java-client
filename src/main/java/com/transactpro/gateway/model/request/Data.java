@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Accessors(chain = true)
 public class Data {
+
     @Valid
     @SerializedName("command-data")
     private Command command;

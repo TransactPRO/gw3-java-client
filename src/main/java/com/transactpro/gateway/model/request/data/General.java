@@ -13,6 +13,7 @@ import javax.validation.Valid;
 @Setter
 @Accessors(chain = true)
 public class General {
+
     @SerializedName("customer-data")
     @Valid
     private Customer customer;

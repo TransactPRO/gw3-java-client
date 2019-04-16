@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Accessors(chain = true)
 public class Money {
+
     @NotNull(groups = {MoneyGroup.class, AmountGroup.class})
     private Integer amount;
     @NotNull(groups = {MoneyGroup.class})
