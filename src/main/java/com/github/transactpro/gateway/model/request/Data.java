@@ -5,7 +5,6 @@ import com.github.transactpro.gateway.model.request.data.General;
 import com.github.transactpro.gateway.model.request.data.Money;
 import com.github.transactpro.gateway.model.request.data.PaymentMethod;
 import com.github.transactpro.gateway.validation.base.DataGroup;
-import com.transactpro.gateway.model.request.data.*;
 import com.github.transactpro.gateway.model.request.data.System;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;

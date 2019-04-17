@@ -7,9 +7,9 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 #### Maven
 
 ```xml
-<!-- https://mvnrepository.com/artifact/com.transactpro.gateway/gateway -->
+<!-- https://mvnrepository.com/artifact/com.github.transactpro.gateway/gateway -->
 <dependency>
-    <groupId>com.transactpro.gateway</groupId>
+    <groupId>com.github.transactpro.gateway</groupId>
     <artifactId>gateway</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -18,8 +18,8 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 #### Gradle
 
 ```groovy
-// https://mvnrepository.com/artifact/com.transactpro.gateway/gateway
-compile group: 'com.transactpro.gateway', name: 'gateway', version: '1.0.0'
+// https://mvnrepository.com/artifact/com.github.transactpro.gateway/gateway
+compile group: 'com.github.transactpro.gateway', name: 'gateway', version: '1.0.0'
 ```
 
 ## Documentation
