@@ -57,13 +57,13 @@ Available operations:
 ### Basic usage
 ```java
 
-import com.transactpro.gateway.Gateway;
-import com.transactpro.gateway.operation.transaction.Sms;
-import com.transactpro.gateway.model.request.data.Money;
-import com.transactpro.gateway.model.request.data.System;
-import com.transactpro.gateway.model.request.data.general.Customer;
-import com.transactpro.gateway.model.request.data.general.Order;
-import com.transactpro.gateway.model.request.data.general.customer.Address;
+import Gateway;
+import Sms;
+import Money;
+import System;
+import Customer;
+import Order;
+import Address;
 
 
 public class Main {
