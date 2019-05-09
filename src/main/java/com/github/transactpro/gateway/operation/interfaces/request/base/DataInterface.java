@@ -21,4 +21,10 @@ public interface DataInterface<T> extends OperationInterface {
         getOperation().getRequest().getData().setTerminalMid(terminalMid);
         return (T) getOperation();
     }
+
+    @SuppressWarnings("unchecked")
+    default T setDataGatewayTransactionId(String gatewayTransactionId) {
+        getOperation().getRequest().getData().setGatewayTransactionId(gatewayTransactionId);
+        return (T) getOperation();
+    }
 }

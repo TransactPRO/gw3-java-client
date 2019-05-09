@@ -19,4 +19,5 @@ public class Command {
     private String terminalMid;
     private String[] gatewayTransactionIds;
     private String[] merchantTransactionIds;
+    private CardVerificationMode cardVerification;
 }

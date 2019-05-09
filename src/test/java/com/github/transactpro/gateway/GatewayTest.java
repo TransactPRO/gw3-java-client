@@ -19,8 +19,8 @@ import javax.validation.Validator;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,7 +81,9 @@ class GatewayTest {
 
         Assertions.assertEquals(body, sms.getResponse().getBody());
         Assertions.assertEquals(statusCode, sms.getResponse().getStatusCode());
-        Assertions.assertEquals(Map.of(headerName, headerValue), sms.getResponse().getHeaders());
+
+        HashMap<String, String> expectedHeaders = new HashMap<String, String>(){{ put(headerName, headerValue); }};
+        Assertions.assertEquals(expectedHeaders, sms.getResponse().getHeaders());
     }
 
     private static Stream processParameters() {

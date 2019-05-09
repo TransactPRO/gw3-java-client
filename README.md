@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:1.0.1'
+implementation 'com.github.transactpro:gateway:1.0.2'
 ```
 
 ## Documentation
@@ -53,17 +53,18 @@ Available operations:
   - STATUS
 - Verification
   - 3-D Secure enrollment
+  - Complete card verification
   
 ### Basic usage
 ```java
 
-import Gateway;
-import Sms;
-import Money;
-import System;
-import Customer;
-import Order;
-import Address;
+import com.github.transactpro.gateway.Gateway;
+import com.github.transactpro.gateway.operation.transaction.Sms;
+import com.github.transactpro.gateway.model.request.data.Money;
+import com.github.transactpro.gateway.model.request.data.System;
+import com.github.transactpro.gateway.model.request.data.general.Customer;
+import com.github.transactpro.gateway.model.request.data.general.Order;
+import com.github.transactpro.gateway.model.request.data.general.customer.Address;
 
 
 public class Main {
@@ -103,14 +104,22 @@ public class Main {
         
         Customer customer = new Customer()
                 .setEmail("test@test.domain")
-                .setBirthDate("01/00");        
+                .setBirthDate("01/00")
+                .setPhone("123456789")
+                .setBillingAddress(address)
+                .setShippingAddress(address);        
         
         System system = new System()
                 .setUserIp("127.0.0.1");
                
+        PaymentMethod paymentMethod = new PaymentMethod()
+                .setCardholderName("John Doe")
+                .setPan("4111111111111111")
+                .setCvv("123")
+                .setExpMmYy("09/31");
+
         sms.setCustomer(customer)
-                .setCustomerBillingAddress(address)
-                .setCustomerShippingAddress(address)
+                .setPayment(paymentMethod)
                 .setMoney(money)
                 .setOrder(order)
                 .setSystem(system);   
@@ -129,6 +138,25 @@ public class Main {
         sms.getResponse().getHeaders();
     }
 }
+```
+
+### Card verification
+```java
+import com.github.transactpro.gateway.model.request.data.CardVerificationMode;
+import com.github.transactpro.gateway.model.request.data.Command;
+import com.github.transactpro.gateway.operation.verify.VerifyCard;
+
+// create a payment to init card verification process
+Command command = new Command().setCardVerification(CardVerificationMode.INIT);
+sms.setCustomer(customer).setCommand(command);
+
+// complete card verification passing gateway transaction ID from initial payment
+VerifyCard verification = new VerifyCard().setDataGatewayTransactionId(gatewayTransactionId);
+gw.process(verification);
+
+// send a payment with flag to accept only verified cards
+Command command = new Command().setCardVerification(CardVerificationMode.VERIFY);
+sms.setCustomer(customer).setCommand(command);
 ```
 
 ### Requirements
