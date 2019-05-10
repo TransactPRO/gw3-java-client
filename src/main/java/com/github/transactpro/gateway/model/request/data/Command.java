@@ -1,6 +1,7 @@
 package com.github.transactpro.gateway.model.request.data;
 
 
+import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.validation.base.CommandTransactionIdGroup;
 import lombok.Getter;
 import lombok.Setter;

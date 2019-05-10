@@ -1,4 +1,4 @@
-package com.github.transactpro.gateway.model.request.data;
+package com.github.transactpro.gateway.model.request.data.command;
 
 import lombok.Getter;
 

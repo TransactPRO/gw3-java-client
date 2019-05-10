@@ -3,6 +3,7 @@ package com.github.transactpro.gateway.operation.transaction;
 import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.request.data.*;
 import com.github.transactpro.gateway.model.request.data.System;
+import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;

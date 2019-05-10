@@ -142,7 +142,7 @@ public class Main {
 
 ### Card verification
 ```java
-import com.github.transactpro.gateway.model.request.data.CardVerificationMode;
+import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.model.request.data.Command;
 import com.github.transactpro.gateway.operation.verify.VerifyCard;
 
@@ -161,7 +161,7 @@ sms.setCustomer(customer).setCommand(command);
 
 ### Requirements
 
-- This library works with Java 11 or above.
+- This library works with Java 8 or above.
 
 ### Submit bugs and feature requests
 

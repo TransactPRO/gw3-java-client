@@ -1,5 +1,6 @@
-package com.github.transactpro.gateway.model.request.data;
+package com.github.transactpro.gateway.adapters;
 
+import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
