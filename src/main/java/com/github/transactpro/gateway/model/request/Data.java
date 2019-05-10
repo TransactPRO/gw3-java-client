@@ -6,6 +6,7 @@ import com.github.transactpro.gateway.model.request.data.Money;
 import com.github.transactpro.gateway.model.request.data.PaymentMethod;
 import com.github.transactpro.gateway.validation.base.DataGroup;
 import com.github.transactpro.gateway.model.request.data.System;
+import com.github.transactpro.gateway.validation.base.GwTransactionIdGroup;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,9 @@ public class Data {
     private String currency;
     @NotNull(groups = {DataGroup.class})
     private String terminalMid;
+
+    @NotNull(groups = {GwTransactionIdGroup.class})
+    private String gatewayTransactionId;
 
     public Data() {
         command = new Command();

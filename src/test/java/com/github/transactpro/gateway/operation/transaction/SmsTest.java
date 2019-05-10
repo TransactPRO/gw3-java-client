@@ -1,9 +1,9 @@
 package com.github.transactpro.gateway.operation.transaction;
 
 import com.github.transactpro.gateway.model.Request;
-import com.github.transactpro.gateway.model.request.data.Money;
-import com.github.transactpro.gateway.model.request.data.PaymentMethod;
+import com.github.transactpro.gateway.model.request.data.*;
 import com.github.transactpro.gateway.model.request.data.System;
+import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;
@@ -65,6 +65,9 @@ class SmsTest {
 
     @Test
     void validOperationAllFields() {
+        Command command = new Command()
+                .setCardVerification(CardVerificationMode.VERIFY);
+
         Address address = new Address()
                 .setCity("Chalon-sur-Saône")
                 .setCountry("FR")
@@ -95,7 +98,9 @@ class SmsTest {
         Customer customer = new Customer()
                 .setEmail("test@test.domain")
                 .setBirthDate("01/00")
-                .setPhone("0000000000");
+                .setPhone("0000000000")
+                .setBillingAddress(address)
+                .setShippingAddress(address);
 
         System system = new System()
                 .setUserIp("127.0.0.1")
@@ -108,9 +113,8 @@ class SmsTest {
                 .setPan("0000000000000000");
 
 
-        operation.setCustomer(customer)
-                .setCustomerBillingAddress(address)
-                .setCustomerShippingAddress(address)
+        operation.setCommand(command)
+                .setCustomer(customer)
                 .setMoney(money)
                 .setOrder(order)
                 .setPayment(paymentMethod)
