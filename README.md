@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>1.0.2</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:1.0.2'
+implementation 'com.github.transactpro:gateway:1.1.0'
 ```
 
 ## Documentation
@@ -54,6 +54,8 @@ Available operations:
 - Verification
   - 3-D Secure enrollment
   - Complete card verification
+- Tokenization
+  - Create payment data token
   
 ### Basic usage
 ```java
@@ -157,6 +159,35 @@ gw.process(verification);
 // send a payment with flag to accept only verified cards
 Command command = new Command().setCardVerification(CardVerificationMode.VERIFY);
 sms.setCustomer(customer).setCommand(command);
+```
+
+### Payment data tokenization
+```java
+import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
+import com.github.transactpro.gateway.operation.token.CreateToken;
+
+// option 1: create a payment with flag to save payment data
+Command command = new Command().setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_SAVE_TO_GATEWAY);
+sms.setCommand(command);
+
+// option 2: send "create token" request with payment data
+CreateToken operation = new CreateToken();
+
+Money money = new Money().setCurrency("EUR");
+Order order = new Order().setDescription("Payment");
+
+PaymentMethod paymentMethod = new PaymentMethod()
+        .setCardholderName("John Doe")
+        .setPan("4111111111111111")
+        .setExpMmYy("09/31");
+
+operation.setPayment(paymentMethod).setMoney(money).setOrder(order);
+
+// send a payment with flag to load payment data by token
+Command command = new Command()
+        .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_GATEWAY_SAVED)
+        .setPaymentMethodDataToken("<initial gateway-transaction-id>");
+sms.setCommand(command);
 ```
 
 ### Requirements

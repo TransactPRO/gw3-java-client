@@ -4,6 +4,7 @@ import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.request.data.*;
 import com.github.transactpro.gateway.model.request.data.System;
 import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
+import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;
@@ -66,7 +67,9 @@ class SmsTest {
     @Test
     void validOperationAllFields() {
         Command command = new Command()
-                .setCardVerification(CardVerificationMode.VERIFY);
+                .setCardVerification(CardVerificationMode.VERIFY)
+                .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_MERCHANT_SAVED)
+                .setPaymentMethodDataToken("some-test-id");
 
         Address address = new Address()
                 .setCity("Chalon-sur-Saône")
