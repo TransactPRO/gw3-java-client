@@ -185,7 +185,7 @@ operation.setPayment(paymentMethod).setMoney(money).setOrder(order);
 
 // send a payment with flag to load payment data by token
 Command command = new Command()
-        .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_GATEWAY_SAVED)
+        .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_GATEWAY_SAVED_CARDHOLDER_INITIATED)
         .setPaymentMethodDataToken("<initial gateway-transaction-id>");
 sms.setCommand(command);
 ```

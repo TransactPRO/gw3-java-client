@@ -68,7 +68,7 @@ class SmsTest {
     void validOperationAllFields() {
         Command command = new Command()
                 .setCardVerification(CardVerificationMode.VERIFY)
-                .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_MERCHANT_SAVED)
+                .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_MERCHANT_SAVED_CARDHOLDER_INITIATED)
                 .setPaymentMethodDataToken("some-test-id");
 
         Address address = new Address()
