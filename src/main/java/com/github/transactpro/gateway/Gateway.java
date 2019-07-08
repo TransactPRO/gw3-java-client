@@ -1,10 +1,12 @@
 package com.github.transactpro.gateway;
 
+import com.github.transactpro.gateway.adapters.PaymentMethodDataSourceSerializer;
 import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.Response;
 import com.github.transactpro.gateway.model.request.Authorization;
 import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.adapters.CardVerificationModeSerializer;
+import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
 import com.github.transactpro.gateway.operation.Operation;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -107,6 +109,7 @@ public class Gateway {
         jsonParser = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
                 .registerTypeAdapter(CardVerificationMode.class, new CardVerificationModeSerializer())
+                .registerTypeAdapter(PaymentMethodDataSource.class, new PaymentMethodDataSourceSerializer())
                 .create();
     }
 
