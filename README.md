@@ -95,10 +95,9 @@ public class Main {
                 .setCurrency("EUR");
                 
         Order order = new Order()
-                .setCustom3dReturnUrl("https://domain.com")
                 .setDescription("Payment")
                 .setId("Order ID")
-                .setMerchantId("FGSSW2aas")
+                .setMerchantId("some-user-ID-in-eshop-system")
                 .setMerchantReferringName("Test payment")
                 .setMerchantTransactionId("33")
                 .setMerchantUrl("https://domain.com/custom-url/")

@@ -88,6 +88,7 @@ class SmsTest {
         meta.put("test", "rest");
 
         Order order = new Order()
+                .setCustomReturnUrl("https://another-domain.com")
                 .setCustom3dReturnUrl("https://domain.com")
                 .setDescription("Payment")
                 .setId(UUID.randomUUID().toString())
