@@ -26,6 +26,7 @@ public class Order {
     private String recipientName;
     private String merchantReferringName;
     private String custom3dReturnUrl;
+    private String customReturnUrl;
     /**
      * Meta can be anything, that can be serialized to JSON
      */
