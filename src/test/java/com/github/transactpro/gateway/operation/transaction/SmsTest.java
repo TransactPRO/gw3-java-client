@@ -108,7 +108,16 @@ class SmsTest {
 
         System system = new System()
                 .setUserIp("127.0.0.1")
-                .setXForwardedFor("127.0.0.1");
+                .setXForwardedFor("127.0.0.1")
+                .setBrowserAcceptHeader("application/json, text/javascript, */*; q=0.01")
+                .setBrowserJavaEnabled(false)
+                .setBrowserJavascriptEnabled(true)
+                .setBrowserLanguage("en-US")
+                .setBrowserColorDepth("24")
+                .setBrowserScreenHeight("1080")
+                .setBrowserScreenWidth("1920")
+                .setBrowserTz("+300")
+                .setBrowserUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36");
 
         PaymentMethod paymentMethod = new PaymentMethod()
                 .setCardholderName("John Smith")
@@ -116,14 +125,12 @@ class SmsTest {
                 .setExpMmYy("12/18")
                 .setPan("0000000000000000");
 
-
         operation.setCommand(command)
                 .setCustomer(customer)
                 .setMoney(money)
                 .setOrder(order)
                 .setPayment(paymentMethod)
                 .setSystem(system);
-
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
