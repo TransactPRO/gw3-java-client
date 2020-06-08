@@ -1,16 +1,10 @@
 package com.github.transactpro.gateway;
 
-import com.github.transactpro.gateway.adapters.PaymentMethodDataSourceSerializer;
 import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.Response;
+import com.github.transactpro.gateway.model.digest.ResponseDigest;
 import com.github.transactpro.gateway.model.request.Authorization;
-import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
-import com.github.transactpro.gateway.adapters.CardVerificationModeSerializer;
-import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
 import com.github.transactpro.gateway.operation.Operation;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.http.Header;
@@ -24,6 +18,9 @@ import org.apache.http.util.EntityUtils;
 
 import javax.validation.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -37,9 +34,8 @@ public class Gateway {
     @Setter
     private String url;
     @Getter
-    private Authorization authorization;
+    private final Authorization authorization;
     private HttpClient httpClient;
-    private Gson jsonParser;
     private Validator validator;
 
     /**
@@ -55,23 +51,25 @@ public class Gateway {
     /**
      * Constructor for account and secret key authorization
      *
-     * @param accountGuid gateway authorization GUID
+     * @param objectGuid gateway authorization GUID
      * @param secretKey gateway authorization secret key
      * @param url gateway base url
      */
-    public Gateway(String accountGuid, String secretKey, String url) {
-        this(new Authorization(accountGuid, secretKey));
+    public Gateway(String objectGuid, String secretKey, String url) {
+        this(new Authorization(objectGuid, secretKey));
         this.url = url;
     }
 
     /**
      * Constructor for session id authorization.
      *
+     * @param objectGuid gateway authorization GUID
+     * @param secretKey gateway authorization secret key
      * @param sessionId gateway authorization session id
      * @param url gateway base url
      */
-    public Gateway(String sessionId, String url) {
-        this(new Authorization(sessionId));
+    public Gateway(String objectGuid, String secretKey, String sessionId, String url) {
+        this(new Authorization(objectGuid, secretKey, sessionId));
         this.url = url;
     }
 
@@ -80,7 +78,6 @@ public class Gateway {
      */
     private void prepare() {
         buildHttpClient();
-        buildJsonParser();
         buildValidator();
     }
 
@@ -103,23 +100,12 @@ public class Gateway {
     }
 
     /**
-     * Create default JSON builder
-     */
-    private void buildJsonParser() {
-        jsonParser = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
-                .registerTypeAdapter(CardVerificationMode.class, new CardVerificationModeSerializer())
-                .registerTypeAdapter(PaymentMethodDataSource.class, new PaymentMethodDataSourceSerializer())
-                .create();
-    }
-
-    /**
      * Validate operation with group, that provided in operation
      *
      * @param operation The operation validate to.
      * @return set of validation errors
      */
-    private Set<ConstraintViolation<Request>> validate(Operation operation) {
+    private Set<ConstraintViolation<Request>> validate(Operation<?> operation) {
         return validator.validate(operation.getRequest(), operation.getValidationGroups());
     }
 
@@ -128,10 +114,12 @@ public class Gateway {
      * On success set parsed response body to operation response.
      *
      * @param operation to process.
-     * @throws ValidationException when operation can't pass validation
-     * @throws IOException         when http request is faulty
+     * @throws ValidationException      when operation can't pass validation
+     * @throws IOException              when http request is faulty
+     * @throws InvalidKeyException      when request digest creation error
+     * @throws NoSuchAlgorithmException when request digest creation error
      */
-    public void process(Operation operation) throws ValidationException, IOException {
+    public void process(Operation<?> operation) throws ValidationException, IOException, InvalidKeyException, NoSuchAlgorithmException {
         Set<ConstraintViolation<Request>> constraintViolations = validate(operation);
         if (!constraintViolations.isEmpty()) {
             ConstraintViolation<Request> cv = constraintViolations.iterator().next();
@@ -141,17 +129,26 @@ public class Gateway {
         }
 
         HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
-        String responseBody = EntityUtils.toString(httpResponse.getEntity());
-        Integer statusCode = httpResponse.getStatusLine().getStatusCode();
-        Map<String, String> headers = new HashMap<>();
+        String responseBody = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
 
-        for (Header header : httpResponse.getAllHeaders()) {
-            headers.put(header.getName(), header.getValue());
+        Map<String, String> headers = new HashMap<>();
+        for (final Header header : httpResponse.getAllHeaders()) {
+            headers.put(header.getName().toLowerCase(), header.getValue());
         }
 
-        operation.setResponse(new Response(statusCode, responseBody, headers));
-    }
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        Response<?> response = operation.createResponse(statusCode, responseBody, headers);
 
+        if (response.isSuccessful()) {
+            ResponseDigest responseDigest = new ResponseDigest(httpResponse.getFirstHeader("Authorization"));
+            response.setDigest(responseDigest);
+
+            responseDigest.setOriginalUri(operation.getRequest().getDigest().getUri());
+            responseDigest.setOriginalCnonce(operation.getRequest().getDigest().getCnonce());
+            responseDigest.setBody(responseBody);
+            responseDigest.verify(authorization.getObjectGuid(), authorization.getSecretKey());
+        }
+    }
 
     /**
      * Build GET or POST request from operation data for HttpClient
@@ -159,18 +156,29 @@ public class Gateway {
      * @param operation transaction or another operation
      * @return request for http client
      */
-    private HttpUriRequest buildRequest(Operation operation) {
+    private HttpUriRequest buildRequest(Operation<?> operation) throws NoSuchAlgorithmException, InvalidKeyException, IOException {
+        /* Setting session ID for request if exists */
+        if (authorization.getSessionId() != null) {
+            operation.getRequest().getAuthorization().setSessionId(authorization.getSessionId());
+        }
 
-        /* Setting credentials for request */
-        operation.getRequest().setAuthorization(authorization);
+        String payload = operation.getRequestPayload();
+        StringEntity requestBody = new StringEntity(payload, "UTF-8");
 
-        String json = jsonParser.toJson(operation.getRequest());
-        StringEntity requestBody = new StringEntity(json, "UTF-8");
+        String uri = operation.getRequest().getUri(this.url, operation.getRequestUri());
+        String sign = operation.getRequest().getSign(authorization.getObjectGuid(), authorization.getSecretKey(), uri, payload);
 
-        return RequestBuilder
-                .create(operation.getMethod())
-                .setUri(url + operation.getRequestUri())
-                .setEntity(requestBody)
-                .build();
+        String method = operation.getMethod();
+        RequestBuilder requestBuilder = RequestBuilder
+                .create(method)
+                .setHeader("Authorization", sign)
+                .setUri(uri)
+                .setEntity(requestBody);
+
+        if (!method.equals("GET")) {
+            requestBuilder.setHeader("Content-Type", "application/json");
+        }
+
+        return requestBuilder.build();
     }
 }

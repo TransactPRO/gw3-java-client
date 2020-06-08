@@ -6,8 +6,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.URL;
 
-import java.util.Map;
-
 @Getter
 @Setter
 @Accessors(chain = true)

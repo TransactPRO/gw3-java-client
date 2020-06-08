@@ -9,16 +9,20 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Authorization {
 
-    private String accountGuid;
+    private String objectGuid;
     private String secretKey;
     private String sessionId;
 
-    public Authorization(String accountGuid, String secretKey) {
-        this.accountGuid = accountGuid;
+    public Authorization() { }
+
+    public Authorization(String objectGuid, String secretKey) {
+        this.objectGuid = objectGuid;
         this.secretKey = secretKey;
     }
 
-    public Authorization(String sessionId) {
+    public Authorization(String objectGuid, String secretKey, String sessionId) {
+        this.objectGuid = objectGuid;
+        this.secretKey = secretKey;
         this.sessionId = sessionId;
     }
 }

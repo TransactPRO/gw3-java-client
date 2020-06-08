@@ -1,24 +1,18 @@
 package com.github.transactpro.gateway.operation.verify;
 
+import com.github.transactpro.gateway.model.response.GenericResponse;
 import com.github.transactpro.gateway.operation.Operation;
 import com.github.transactpro.gateway.operation.interfaces.request.base.DataInterface;
 import com.github.transactpro.gateway.validation.VerifyCardGroup;
 
-public class VerifyCard extends Operation implements DataInterface<VerifyCard> {
-
-    private final String uri = "/verify/card";
-
-    public String getRequestUri() {
-        return uri;
+public class VerifyCard extends Operation<GenericResponse> implements DataInterface<VerifyCard> {
+    {
+        requestUri = "/verify/card";
+        responseType = GenericResponse.class;
     }
 
     @Override
-    public Class getValidationGroups() {
+    public Class<?> getValidationGroups() {
         return VerifyCardGroup.class;
-    }
-
-    @Override
-    public Operation getOperation() {
-        return this;
     }
 }
