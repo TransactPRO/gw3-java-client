@@ -19,6 +19,15 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>TransactPro IT</name>
+            <email>it@transactpro.net</email>
+            <organization>Transact Pro</organization>
+            <organizationUrl>https://www.transactpro.eu/</organizationUrl>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:git://github.com/TransactPRO/gw3-java-client.git</connection>
         <developerConnection>scm:git:ssh://github.com:TransactPRO/gw3-java-client.git</developerConnection>
