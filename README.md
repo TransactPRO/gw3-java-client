@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:1.2.0'
+implementation 'com.github.transactpro:gateway:1.3.0'
 ```
 
 ## Documentation
@@ -51,22 +51,32 @@ Available operations:
   - REFUNDS
   - RESULT
   - STATUS
+  - LIMITS
 - Verification
   - 3-D Secure enrollment
   - Complete card verification
 - Tokenization
   - Create payment data token
+- Callback processing
+  - verify callback data sign
+- Reporting
+  - Get transactions report in CSV format
   
 ### Basic usage
 ```java
 
 import com.github.transactpro.gateway.Gateway;
 import com.github.transactpro.gateway.operation.transaction.Sms;
+import com.github.transactpro.gateway.model.exception.ResponseException;
+import com.github.transactpro.gateway.model.digest.exception.DigestMismatchException;
+import com.github.transactpro.gateway.model.digest.exception.DigestMissingException;
 import com.github.transactpro.gateway.model.request.data.Money;
 import com.github.transactpro.gateway.model.request.data.System;
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;
+import com.github.transactpro.gateway.model.response.PaymentResponse;
+import com.github.transactpro.gateway.model.response.constants.Status;
 
 
 public class Main {
@@ -127,16 +137,29 @@ public class Main {
         
         try {
             gw.process(sms);
+
+            PaymentResponse parsedSmsResponse = sms.getResponse().parse();
+            if (parsedSmsResponse.getError() != null && parsedSmsResponse.getError().getCode() != 0) {
+                // Process Gateway error
+            } else if (parsedSmsResponse.getGw().getStatusCode() == Status.MPI_URL_GENERATED) {
+                // Redirect user to received URL
+            }
         } catch (IOException e) {
             // Do something with IOException
         } catch (ValidationException e) {
             // Do something with ValidationException
+        } catch (DigestMissingException | DigestMismatchException e) {
+            // Do something with digest errors
+        } catch (ResponseException e) {
+            // Do something with unexpected response exception (like unexpected format)
+        } catch (Exception e) {
+            // Do something with unexpected error
+        } finally {
+            // Results
+            System.out.println(sms.getResponse().getBody());
+            System.out.println(sms.getResponse().getStatusCode());
+            System.out.println(sms.getResponse().getHeaders());
         }
-        
-        // Results
-        sms.getResponse().getBody();
-        sms.getResponse().getStatusCode();
-        sms.getResponse().getHeaders();
     }
 }
 ```
@@ -154,6 +177,7 @@ sms.setCustomer(customer).setCommand(command);
 // complete card verification passing gateway transaction ID from initial payment
 VerifyCard verification = new VerifyCard().setDataGatewayTransactionId(gatewayTransactionId);
 gw.process(verification);
+System.out.println(operation.getResponse().getStatusCode() == 200 ? "SUCCESS" : "FAILURE");
 
 // send a payment with flag to accept only verified cards
 Command command = new Command().setCardVerification(CardVerificationMode.VERIFY);
@@ -187,6 +211,67 @@ Command command = new Command()
         .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_GATEWAY_SAVED_CARDHOLDER_INITIATED)
         .setPaymentMethodDataToken("<initial gateway-transaction-id>");
 sms.setCommand(command);
+```
+
+### Callback validation
+
+```java
+import com.github.transactpro.gateway.model.digest.ResponseDigest;
+import com.github.transactpro.gateway.model.exception.ResponseException;
+import com.github.transactpro.gateway.model.response.CallbackResult;
+import com.github.transactpro.gateway.model.response.GatewayResponse;
+
+
+ResponseDigest responseDigest = new ResponseDigest(signFromPost);
+responseDigest.setOriginalUri(paymentOperation.getResponse().getDigest().getUri());       // optional, set if available
+responseDigest.setOriginalCnonce(paymentOperation.getResponse().getDigest().getCnonce()); // optional, set if available
+responseDigest.setBody(jsonFromPost);
+responseDigest.verify("xxxxxxxx-xxxxxxxx-xxxxxxxxxx", "8XY0ujBrVSkNpLe");
+
+CallbackResult parsedResult = GatewayResponse.fromJson(jsonFromPost, CallbackResult.class);
+System.out.println(parsedResult.getResultData().getGw().getGatewayTransactionId());
+```
+
+### Transactions report loading
+
+```java
+import com.github.transactpro.gateway.Gateway;
+import com.github.transactpro.gateway.model.response.CsvResponse;
+import com.github.transactpro.gateway.operation.reporting.Report;
+
+
+// NB. Merchant GUID/secret must be used instead of account GUID/secret!
+Gateway gw = new Gateway(
+ "xxxxxxxx-xxxxxxxx-xxxxxxxxxx",
+ "8XY0ujBrVSkNpLe",
+ "https://payment.gateway.com/v3.0"
+);
+
+Report operation = new Report()
+        .setCreatedFrom(java.lang.System.currentTimeMillis() / 1000L - 86400L)
+        .setFinishedTo(java.lang.System.currentTimeMillis() / 1000L);
+
+gw.process(operation);
+
+Response<CsvResponse> responce = operation.getResponse();
+CsvResponse parsedCsv = responce.parse();
+for (CSVRecord record : parsedCsv) {
+    System.out.println(record.toMap());
+}
+```
+
+### Customization
+
+If you need to load an HTML form from Gateway instead of cardholder browser redirect, a special operation type may be used:
+
+```java
+import com.github.transactpro.gateway.model.response.PaymentResponse;
+import com.github.transactpro.gateway.operation.helpers.RetrieveForm;
+
+PaymentResponse parsedSmsResponse = paymentOperation.getResponse().parse();
+RetrieveForm retrieveFormOperation = new RetrieveForm(paymentResponse);
+gw.process(retrieveFormOperation);
+System.out.println(retrieveFormOperation.getResponse().getBody());
 ```
 
 ### Requirements

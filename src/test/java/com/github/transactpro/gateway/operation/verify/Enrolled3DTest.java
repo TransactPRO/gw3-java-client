@@ -1,14 +1,23 @@
 package com.github.transactpro.gateway.operation.verify;
 
 import com.github.transactpro.gateway.model.Request;
+import com.github.transactpro.gateway.model.Response;
+import com.github.transactpro.gateway.model.response.EnrollmentResponse;
+import com.github.transactpro.gateway.model.response.constants.Enrollment;
 import com.github.transactpro.gateway.validation.EnrollGroup;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,5 +67,21 @@ class Enrolled3DTest {
 
         Set<ConstraintViolation<Request>> constraintViolations = validator.validate(operation.getRequest(), operation.getValidationGroups());
         assertFalse(constraintViolations.isEmpty());
+    }
+
+    @ParameterizedTest
+    @MethodSource("enrollmentTestData")
+    void parseEnrollmentResponse(String body, Enrollment expectedResult) {
+        Response<EnrollmentResponse> response = operation.createResponse(200, body, null);
+        EnrollmentResponse parsedResponse = response.parse();
+        assertEquals(expectedResult, parsedResponse.getEnrollment());
+    }
+
+    private static Stream<Arguments> enrollmentTestData() {
+        return Stream.of(
+                Arguments.of("{\"enrollment\":\"y\"}", Enrollment.YES),
+                Arguments.of("{\"enrollment\":\"n\"}", Enrollment.NO),
+                Arguments.of("{\"enrollment\":\"abracadabra\"}", null)
+        );
     }
 }

@@ -1,24 +1,18 @@
 package com.github.transactpro.gateway.operation.transaction;
 
+import com.github.transactpro.gateway.model.response.PaymentResponse;
 import com.github.transactpro.gateway.operation.Operation;
-import com.github.transactpro.gateway.validation.TransactionGroup;
 import com.github.transactpro.gateway.operation.interfaces.request.TransactionInterface;
+import com.github.transactpro.gateway.validation.TransactionGroup;
 
-public class Sms extends Operation implements TransactionInterface<Sms> {
-
-    private final String uri = "/sms";
-
-    public String getRequestUri() {
-        return uri;
+public class Sms extends Operation<PaymentResponse> implements TransactionInterface<Sms> {
+    {
+        requestUri = "/sms";
+        responseType = PaymentResponse.class;
     }
 
     @Override
-    public Operation getOperation() {
-        return this;
-    }
-
-    @Override
-    public Class getValidationGroups() {
+    public Class<?> getValidationGroups() {
         return TransactionGroup.class;
     }
 }
