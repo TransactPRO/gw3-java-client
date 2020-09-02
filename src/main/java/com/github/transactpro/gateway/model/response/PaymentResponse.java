@@ -31,6 +31,8 @@ public class PaymentResponse extends GenericResponse {
     public static class GW {
         @SerializedName("gateway-transaction-id")
         private String gatewayTransactionId;
+        @SerializedName("merchant-transaction-id")
+        private String merchantTransactionId;
         @SerializedName("original-gateway-transaction-id")
         private String originalGatewayTransactionId;
         @SerializedName("parent-gateway-transaction-id")
