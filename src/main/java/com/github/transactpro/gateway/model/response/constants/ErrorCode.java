@@ -80,6 +80,8 @@ public enum ErrorCode {
     EEC_DYNAMIC_DESCRIPTOR_ERROR(1158),
     @SerializedName("1159")
     EEC_UCOF_ERROR(1159),
+    @SerializedName("1160")
+    EEC_SUSPECTED_FRAUD(1160),
     @SerializedName("1200")
     EEC_TERMINAL_NOT_FOUND(1200),
     @SerializedName("1201")
@@ -96,6 +98,8 @@ public enum ErrorCode {
     EEC_DECLINED_BY_ACQUIRER(1301),
     @SerializedName("1302")
     EEC_ACQUIRER_ERROR(1302),
+    @SerializedName("1303")
+    EEC_ACQUIRER_SOFT_DECLINE(1303),
     @SerializedName("1400")
     EEC_INVALID_FORM_ID(1400),
     @SerializedName("1401")

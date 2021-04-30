@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>1.3.2</version>
+  <version>1.3.3</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:1.3.2'
+implementation 'com.github.transactpro:gateway:1.3.3'
 ```
 
 ## Documentation
@@ -66,6 +66,7 @@ Available operations:
 ```java
 
 import com.github.transactpro.gateway.Gateway;
+import com.github.transactpro.gateway.model.request.data.PaymentMethod;
 import com.github.transactpro.gateway.operation.transaction.Sms;
 import com.github.transactpro.gateway.model.exception.ResponseException;
 import com.github.transactpro.gateway.model.digest.exception.DigestMismatchException;
@@ -141,7 +142,7 @@ public class Main {
             PaymentResponse parsedSmsResponse = sms.getResponse().parse();
             if (parsedSmsResponse.getError() != null && parsedSmsResponse.getError().getCode() != 0) {
                 // Process Gateway error
-            } else if (parsedSmsResponse.getGw().getStatusCode() == Status.MPI_URL_GENERATED) {
+            } else if (parsedSmsResponse.getGw().getRedirectUrl() != null) {
                 // Redirect user to received URL
             }
         } catch (IOException e) {
@@ -156,9 +157,9 @@ public class Main {
             // Do something with unexpected error
         } finally {
             // Results
-            System.out.println(sms.getResponse().getBody());
-            System.out.println(sms.getResponse().getStatusCode());
-            System.out.println(sms.getResponse().getHeaders());
+            java.lang.System.out.println(sms.getResponse().getBody());
+            java.lang.System.out.println(sms.getResponse().getStatusCode());
+            java.lang.System.out.println(sms.getResponse().getHeaders());
         }
     }
 }
