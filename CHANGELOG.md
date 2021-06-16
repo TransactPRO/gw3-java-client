@@ -1,3 +1,12 @@
+##### Version 1.3.4 (2021-06-16)
+
+	Bumps [hibernate-validator](https://github.com/hibernate/hibernate-validator) from 6.1.0.Final to 6.1.5.Final.
+	- [Release notes](https://github.com/hibernate/hibernate-validator/releases)
+	- [Changelog](https://github.com/hibernate/hibernate-validator/blob/6.1.5.Final/changelog.txt)
+	- [Commits](https://github.com/hibernate/hibernate-validator/compare/6.1.0.Final...6.1.5.Final)
+	
+	Bumps httpclient from 4.5.3 to 4.5.13.
+
 ##### Version 1.3.3 (2021-06-04)
 
 	Added error codes for soft declines
