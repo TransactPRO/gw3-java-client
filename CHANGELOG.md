@@ -1,3 +1,7 @@
+##### Version 1.3.5 (2021-09-06)
+
+	Added fields for recurring payments: recurring-frequency and recurring-expiry.
+
 ##### Version 1.3.4 (2021-06-16)
 
 	Bumps [hibernate-validator](https://github.com/hibernate/hibernate-validator) from 6.1.0.Final to 6.1.5.Final.
