@@ -25,6 +25,8 @@ public class Order {
     private String merchantReferringName;
     private String custom3dReturnUrl;
     private String customReturnUrl;
+    private String recurringExpiry;
+    private String recurringFrequency;
     /**
      * Meta can be anything, that can be serialized to JSON
      */

@@ -102,7 +102,9 @@ class SmsTest {
                 .setMerchantTransactionId(UUID.randomUUID().toString())
                 .setMerchantUrl("https://domain.com/custom-url/")
                 .setMeta(meta)
-                .setRecipientName("John Smith");
+                .setRecipientName("John Smith")
+                .setRecurringExpiry("20250131")
+                .setRecurringFrequency("30");
 
         Customer customer = new Customer()
                 .setEmail("test@test.domain")
