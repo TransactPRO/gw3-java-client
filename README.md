@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>1.3.5</version>
+  <version>1.3.6</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:1.3.5'
+implementation 'com.github.transactpro:gateway:1.3.6'
 ```
 
 ## Documentation
@@ -260,6 +260,13 @@ for (CSVRecord record : parsedCsv) {
     System.out.println(record.toMap());
 }
 ```
+
+### Useful enumerators
+
+`com.github.transactpro.gateway.model.response.constants.ErrorCode` - error codes
+`com.github.transactpro.gateway.model.response.constants.Status` - transaction statuses
+`com.github.transactpro.gateway.model.response.constants.Enrollment` - card 3-D Secure enrollment statuses
+`com.github.transactpro.gateway.model.response.constants.CardFamily` - card families
 
 ### Customization
 

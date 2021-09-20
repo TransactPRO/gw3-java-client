@@ -1,5 +1,6 @@
 package com.github.transactpro.gateway.model.response;
 
+import com.github.transactpro.gateway.model.response.constants.CardFamily;
 import com.github.transactpro.gateway.model.response.constants.Status;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
@@ -19,6 +20,10 @@ public class StatusResponse extends TransactionsList<StatusResponse.Element> {
         private String statusText;
         @SerializedName("status-text-general")
         private String statusTextGeneral;
+        @SerializedName("card-mask")
+        private String cardMask;
+        @SerializedName("card-family")
+        private CardFamily cardFamily;
     }
 
     @Getter
