@@ -16,7 +16,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.FieldSetter;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
@@ -50,7 +49,7 @@ class GatewayTest {
         HashSet hs = new HashSet<ConstraintViolation<Request>>();
         //noinspection unchecked
         when(validator.validate(sms, sms.getValidationGroups())).thenReturn(hs);
-        FieldSetter.setField(gw, gw.getClass().getDeclaredField("validator"), validator);
+        ReflectionUtils.setField(gw, gw.getClass().getDeclaredField("validator"), validator);
 
         assertThrows(IOException.class, () -> gw.process(sms));
     }
@@ -88,8 +87,8 @@ class GatewayTest {
         when(requestDigest.getUri()).thenReturn("/v3.0/sms");
         sms.getRequest().setDigest(requestDigest);
 
-        FieldSetter.setField(gw, gw.getClass().getDeclaredField("validator"), validator);
-        FieldSetter.setField(gw, gw.getClass().getDeclaredField("httpClient"), httpClient);
+        ReflectionUtils.setField(gw, gw.getClass().getDeclaredField("validator"), validator);
+        ReflectionUtils.setField(gw, gw.getClass().getDeclaredField("httpClient"), httpClient);
         gw.process(sms);
 
         Assertions.assertEquals(body, sms.getResponse().getBody());
