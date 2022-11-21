@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>1.3.6</version>
+  <version>1.3.7</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:1.3.6'
+implementation 'com.github.transactpro:gateway:1.3.7'
 ```
 
 ## Documentation

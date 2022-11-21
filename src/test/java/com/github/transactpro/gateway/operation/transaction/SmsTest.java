@@ -11,6 +11,7 @@ import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDa
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;
+import com.github.transactpro.gateway.model.request.data.payment.ExternalMPIData;
 import com.github.transactpro.gateway.model.response.PaymentResponse;
 import com.github.transactpro.gateway.model.response.constants.ErrorCode;
 import com.github.transactpro.gateway.model.response.constants.Status;
@@ -126,11 +127,19 @@ class SmsTest {
                 .setBrowserTz("+300")
                 .setBrowserUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36");
 
+        ExternalMPIData externalMpiData = new ExternalMPIData()
+                .setProtocolVersion("2.2.0")
+                .setDsTransId("26221368-1c3d-4f3c-ba34-2efb76644c32")
+                .setXid("b+f8duAy8jNTQ0DB4U3mSmPyp8s=")
+                .setCavv("kBMI/uGZvlKCygBkcQIlLJeBTPLG")
+                .setTransStatus("Y");
+
         PaymentMethod paymentMethod = new PaymentMethod()
                 .setCardholderName("John Smith")
                 .setCvv("000")
                 .setExpMmYy("12/18")
-                .setPan("0000000000000000");
+                .setPan("0000000000000000")
+                .setExternalMpiData(externalMpiData);
 
         operation.setCommand(command)
                 .setCustomer(customer)
