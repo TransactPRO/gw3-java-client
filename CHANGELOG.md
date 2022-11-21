@@ -1,3 +1,19 @@
+##### Version 1.3.7 (2022-11-21)
+
+	Added support for external 3-D Secure
+	Added externalMpiData to PaymentMethod (when 3-D Secure was completed before the Gateway call)
+	Bump gson from 2.8.5 to 2.8.9
+	Bumps [gson](https://github.com/google/gson) from 2.8.5 to 2.8.9.
+	- [Release notes](https://github.com/google/gson/releases)
+	- [Changelog](https://github.com/google/gson/blob/master/CHANGELOG.md)
+	- [Commits](https://github.com/google/gson/compare/gson-parent-2.8.5...gson-parent-2.8.9)
+	---
+	updated-dependencies:
+	- dependency-name: com.google.code.gson:gson
+	  dependency-type: direct:production
+	...
+	Signed-off-by: dependabot[bot] <support@github.com>
+
 ##### Version 1.3.6 (2021-09-21)
 
 	Added card type and card mask fields to parsed status response.
