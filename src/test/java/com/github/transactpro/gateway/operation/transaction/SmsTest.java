@@ -105,7 +105,9 @@ class SmsTest {
                 .setMeta(meta)
                 .setRecipientName("John Smith")
                 .setRecurringExpiry("20250131")
-                .setRecurringFrequency("30");
+                .setRecurringFrequency("30")
+                .setMitsExpected(true)
+                .setVariableAmountRecurring(true);
 
         Customer customer = new Customer()
                 .setEmail("test@test.domain")
