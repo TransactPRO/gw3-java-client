@@ -27,6 +27,8 @@ public class Order {
     private String customReturnUrl;
     private String recurringExpiry;
     private String recurringFrequency;
+    private Boolean mitsExpected;
+    private Boolean variableAmountRecurring;
     /**
      * Meta can be anything, that can be serialized to JSON
      */
