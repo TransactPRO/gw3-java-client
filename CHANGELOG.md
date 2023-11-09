@@ -1,3 +1,11 @@
+##### Version 2.0.0 (2023-11-09)
+
+	Remove support for Java 8
+	Update dependencies to fix vulnerabilities issues
+	Added new fields for order data to satisfy AN5524 requirements:
+	 - mits-expected: must be set to true for UCOF initialization if any subsequent MIT transactions are supposed to be
+	 - variable-amount-recurring: must be set to true for initial recurring transaction if amount will not be fixed for subsequent transactions
+
 ##### Version 1.3.7 (2022-11-21)
 
 	Added support for external 3-D Secure
