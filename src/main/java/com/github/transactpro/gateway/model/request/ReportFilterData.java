@@ -1,11 +1,10 @@
 package com.github.transactpro.gateway.model.request;
 
 import com.github.transactpro.gateway.validation.base.ReportFilterGroup;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.Positive;
 
 @Getter
 @Setter

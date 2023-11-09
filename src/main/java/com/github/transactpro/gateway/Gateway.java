@@ -5,18 +5,16 @@ import com.github.transactpro.gateway.model.Response;
 import com.github.transactpro.gateway.model.digest.ResponseDigest;
 import com.github.transactpro.gateway.model.request.Authorization;
 import com.github.transactpro.gateway.operation.Operation;
+import jakarta.validation.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 
-import javax.validation.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -35,7 +33,7 @@ public class Gateway {
     private String url;
     @Getter
     private final Authorization authorization;
-    private HttpClient httpClient;
+    private CloseableHttpClient httpClient;
     private Validator validator;
 
     /**
@@ -85,9 +83,7 @@ public class Gateway {
      * Create default http client
      */
     private void buildHttpClient() {
-        httpClient = HttpClientBuilder
-                .create()
-                .build();
+        httpClient = HttpClients.createDefault();
     }
 
     /**
@@ -118,8 +114,9 @@ public class Gateway {
      * @throws IOException              when http request is faulty
      * @throws InvalidKeyException      when request digest creation error
      * @throws NoSuchAlgorithmException when request digest creation error
+     * @throws ParseException           when response parsing is unsuccessful
      */
-    public void process(Operation<?> operation) throws ValidationException, IOException, InvalidKeyException, NoSuchAlgorithmException {
+    public void process(Operation<?> operation) throws ValidationException, IOException, InvalidKeyException, NoSuchAlgorithmException, ParseException {
         Set<ConstraintViolation<Request>> constraintViolations = validate(operation);
         if (!constraintViolations.isEmpty()) {
             ConstraintViolation<Request> cv = constraintViolations.iterator().next();
@@ -128,15 +125,18 @@ public class Gateway {
                             cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
         }
 
-        HttpResponse httpResponse = httpClient.execute(buildRequest(operation));
-        String responseBody = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
+        ClassicHttpResponse httpResponse = httpClient.execute(buildRequest(operation));
+
+        final HttpEntity entity = httpResponse.getEntity();
+        String responseBody = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+        EntityUtils.consume(entity);
 
         Map<String, String> headers = new HashMap<>();
-        for (final Header header : httpResponse.getAllHeaders()) {
+        for (final Header header : httpResponse.getHeaders()) {
             headers.put(header.getName().toLowerCase(), header.getValue());
         }
 
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        int statusCode = httpResponse.getCode();
         Response<?> response = operation.createResponse(statusCode, responseBody, headers);
 
         if (response.isSuccessful()) {
@@ -156,20 +156,20 @@ public class Gateway {
      * @param operation transaction or another operation
      * @return request for http client
      */
-    private HttpUriRequest buildRequest(Operation<?> operation) throws NoSuchAlgorithmException, InvalidKeyException, IOException {
+    private ClassicHttpRequest buildRequest(Operation<?> operation) throws NoSuchAlgorithmException, InvalidKeyException, IOException {
         /* Setting session ID for request if exists */
         if (authorization.getSessionId() != null) {
             operation.getRequest().getAuthorization().setSessionId(authorization.getSessionId());
         }
 
         String payload = operation.getRequestPayload();
-        StringEntity requestBody = new StringEntity(payload, "UTF-8");
+        StringEntity requestBody = new StringEntity(payload, StandardCharsets.UTF_8);
 
         String uri = operation.getRequest().getUri(this.url, operation.getRequestUri());
         String sign = operation.getRequest().getSign(authorization.getObjectGuid(), authorization.getSecretKey(), uri, payload);
 
         String method = operation.getMethod();
-        RequestBuilder requestBuilder = RequestBuilder
+        ClassicRequestBuilder requestBuilder = ClassicRequestBuilder
                 .create(method)
                 .setHeader("Authorization", sign)
                 .setUri(uri)

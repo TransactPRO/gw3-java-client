@@ -2,13 +2,12 @@ package com.github.transactpro.gateway.model.request.data;
 
 import com.github.transactpro.gateway.model.request.data.payment.ExternalMPIData;
 import com.github.transactpro.gateway.validation.base.PaymentMethodPanExpGroup;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.CreditCardNumber;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

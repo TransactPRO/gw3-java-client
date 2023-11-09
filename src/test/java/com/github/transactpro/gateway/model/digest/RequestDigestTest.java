@@ -1,6 +1,6 @@
 package com.github.transactpro.gateway.model.digest;
 
-import org.apache.commons.codec.binary.Base64;
+import org.apache.hc.client5.http.utils.Base64;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

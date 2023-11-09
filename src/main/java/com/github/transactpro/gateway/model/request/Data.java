@@ -5,13 +5,12 @@ import com.github.transactpro.gateway.model.request.data.*;
 import com.github.transactpro.gateway.validation.base.DataGroup;
 import com.github.transactpro.gateway.validation.base.GwTransactionIdGroup;
 import com.google.gson.annotations.SerializedName;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.CreditCardNumber;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

@@ -9,9 +9,9 @@ import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDa
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import jakarta.validation.groups.Default;
 import lombok.Getter;
 
-import javax.validation.groups.Default;
 import java.util.Map;
 
 /**

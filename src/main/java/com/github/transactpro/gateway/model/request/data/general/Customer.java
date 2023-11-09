@@ -1,13 +1,12 @@
 package com.github.transactpro.gateway.model.request.data.general;
 
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.groups.Default;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.groups.Default;
 
 @Getter
 @Setter

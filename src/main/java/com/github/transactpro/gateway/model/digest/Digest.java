@@ -1,14 +1,15 @@
 package com.github.transactpro.gateway.model.digest;
 
+import jakarta.validation.ValidationException;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.codec.binary.Hex;
+import org.apache.hc.client5.http.utils.Hex;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.validation.ValidationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -39,7 +40,7 @@ abstract public class Digest {
         new SecureRandom().nextBytes(bytes);
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        result.write(timeStampUTC.getBytes());
+        result.write(timeStampUTC.getBytes(StandardCharsets.UTF_8));
         result.write(':');
         result.write(bytes);
 
@@ -50,7 +51,7 @@ abstract public class Digest {
         String hmacAlgorithm = algorithm.getHmacAlgorithm();
         Mac mac = Mac.getInstance(hmacAlgorithm);
 
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes(), hmacAlgorithm);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), hmacAlgorithm);
         mac.init(secretKeySpec);
 
         byte[] digest = mac.doFinal(data.toByteArray());

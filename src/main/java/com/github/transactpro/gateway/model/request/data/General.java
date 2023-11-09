@@ -3,11 +3,10 @@ package com.github.transactpro.gateway.model.request.data;
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.google.gson.annotations.SerializedName;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.Valid;
 
 @Getter
 @Setter

@@ -3,15 +3,15 @@ package com.github.transactpro.gateway.operation.info;
 import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.Response;
 import com.github.transactpro.gateway.model.response.LimitsResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.groups.Default;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.groups.Default;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

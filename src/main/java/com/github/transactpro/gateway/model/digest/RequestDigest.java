@@ -1,12 +1,14 @@
 package com.github.transactpro.gateway.model.digest;
 
 import lombok.Setter;
-import org.apache.commons.codec.binary.Base64;
+import org.apache.hc.client5.http.utils.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -27,13 +29,14 @@ public class RequestDigest extends Digest {
     }
 
     public String createHeader() throws NoSuchAlgorithmException, InvalidKeyException, IOException {
+        Charset cs = StandardCharsets.UTF_8;
         ByteArrayOutputStream data = new ByteArrayOutputStream();
-        data.write(username.getBytes());
+        data.write(username.getBytes(cs));
         data.write(cnonce);
-        data.write(qop.getValue().getBytes());
-        data.write(uri.getBytes());
+        data.write(qop.getValue().getBytes(cs));
+        data.write(uri.getBytes(cs));
         if (qop == QOP.AUTH_INT) {
-            data.write(body.getBytes());
+            data.write(body.getBytes(cs));
         }
 
         response = calculate(data, secret);

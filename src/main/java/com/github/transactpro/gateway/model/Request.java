@@ -4,11 +4,11 @@ import com.github.transactpro.gateway.model.digest.RequestDigest;
 import com.github.transactpro.gateway.model.request.Authorization;
 import com.github.transactpro.gateway.model.request.Data;
 import com.google.gson.annotations.SerializedName;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.security.InvalidKeyException;
