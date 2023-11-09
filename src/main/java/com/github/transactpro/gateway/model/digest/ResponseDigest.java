@@ -2,16 +2,20 @@ package com.github.transactpro.gateway.model.digest;
 
 import com.github.transactpro.gateway.model.digest.exception.DigestMismatchException;
 import com.github.transactpro.gateway.model.digest.exception.DigestMissingException;
+import jakarta.validation.ValidationException;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.message.BasicHeader;
+import org.apache.hc.client5.http.utils.Base64;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HeaderElement;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.message.BasicHeaderValueParser;
+import org.apache.hc.core5.http.message.ParserCursor;
 
-import javax.validation.ValidationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -49,7 +53,8 @@ public class ResponseDigest extends Digest {
             put("snonce", null);
         }};
 
-        HeaderElement[] elements = authorizationHeader.getElements();
+        String authValue = authorizationHeader.getValue();
+        HeaderElement[] elements = BasicHeaderValueParser.INSTANCE.parseElements(authValue, new ParserCursor(0, authValue.length()));
         for (int i = 0; i < elements.length; i++) {
             String key = elements[i].getName();
             String value = elements[i].getValue();
@@ -122,18 +127,19 @@ public class ResponseDigest extends Digest {
             throw new DigestMismatchException("Digest mismatch: cnonce mismatch");
         }
 
+        Charset cs = StandardCharsets.UTF_8;
         ByteArrayOutputStream data = new ByteArrayOutputStream();
-        data.write(username.getBytes());
+        data.write(username.getBytes(cs));
         data.write(cnonce);
         data.write(snonce);
-        data.write(qop.getValue().getBytes());
-        data.write(uri.getBytes());
+        data.write(qop.getValue().getBytes(cs));
+        data.write(uri.getBytes(cs));
         if (qop == QOP.AUTH_INT) {
-            data.write(body.getBytes());
+            data.write(body.getBytes(cs));
         }
         String expectedDigest = calculate(data, secret);
 
-        if (!MessageDigest.isEqual(expectedDigest.getBytes(), response.getBytes())) {
+        if (!MessageDigest.isEqual(expectedDigest.getBytes(cs), response.getBytes(cs))) {
             throw new DigestMismatchException("Digest mismatch");
         }
     }

@@ -1,11 +1,11 @@
 package com.github.transactpro.gateway.model.request;
 
 import com.github.transactpro.gateway.model.Request;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.validation.Valid;
 import java.net.MalformedURLException;
 import java.net.URL;
 

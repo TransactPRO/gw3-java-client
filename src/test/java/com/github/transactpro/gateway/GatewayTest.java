@@ -3,13 +3,17 @@ package com.github.transactpro.gateway;
 import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.digest.RequestDigest;
 import com.github.transactpro.gateway.operation.transaction.Sms;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.message.BasicHeader;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.utils.Base64;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.message.BasicHeader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,9 +21,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +57,7 @@ class GatewayTest {
 
     @ParameterizedTest
     @MethodSource("processParameters")
-    void process(String body, Integer statusCode, String headerName, String headerValue) throws NoSuchFieldException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    void process(String body, Integer statusCode, String headerName, String headerValue) throws NoSuchFieldException, IOException, NoSuchAlgorithmException, InvalidKeyException, ParseException {
 
         Gateway gw = new Gateway("dsfw3f34fsdf-GUID", "very,very_secret_key", "http://some-fake-url33-should-not-work.com/v3.0");
         Sms sms = new Sms();
@@ -73,14 +74,14 @@ class GatewayTest {
 
         Header header = new BasicHeader(headerName, headerValue);
 
-        HttpResponse httpResponse = mock(HttpResponse.class, Mockito.RETURNS_DEEP_STUBS);
+        CloseableHttpResponse httpResponse = mock(CloseableHttpResponse.class, Mockito.RETURNS_DEEP_STUBS);
         when(httpResponse.getEntity()).thenReturn(httpEntity);
-        when(httpResponse.getStatusLine().getStatusCode()).thenReturn(statusCode);
-        when(httpResponse.getAllHeaders()).thenReturn(new Header[]{header});
+        when(httpResponse.getCode()).thenReturn(statusCode);
+        when(httpResponse.getHeaders()).thenReturn(new Header[]{header});
         when(httpResponse.getFirstHeader("Authorization")).thenReturn(header);
 
-        HttpClient httpClient = mock(HttpClient.class);
-        when(httpClient.execute(any(HttpUriRequest.class))).thenReturn(httpResponse);
+        CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
+        when(httpClient.execute(any(ClassicHttpRequest.class))).thenReturn(httpResponse);
 
         RequestDigest requestDigest = mock(RequestDigest.class);
         when(requestDigest.getCnonce()).thenReturn(Base64.decodeBase64("MTU5MTYyNTA2MzqydV+lpoF4ZtfSAifxoUretZdAzGaZa97iRogrQ8K/yg=="));

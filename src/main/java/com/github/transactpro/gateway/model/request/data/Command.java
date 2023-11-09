@@ -4,11 +4,10 @@ package com.github.transactpro.gateway.model.request.data;
 import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
 import com.github.transactpro.gateway.validation.base.CommandTransactionIdGroup;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

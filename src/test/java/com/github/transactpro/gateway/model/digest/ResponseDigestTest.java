@@ -5,15 +5,16 @@ import com.github.transactpro.gateway.model.digest.exception.DigestMissingExcept
 import com.github.transactpro.gateway.model.exception.ResponseException;
 import com.github.transactpro.gateway.model.response.CallbackResult;
 import com.github.transactpro.gateway.model.response.GatewayResponse;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
+import org.apache.hc.client5.http.utils.Base64;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.message.BasicHeader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.stream.Stream;
@@ -31,9 +32,9 @@ class ResponseDigestTest {
     }
 
     private static Stream<Arguments> constructorErrorCases() {
-        String nonce = Base64.encodeBase64String("1:q".getBytes());
-        String noTsNonce = Base64.encodeBase64String("qqq".getBytes());
-        String wrongTsNonce = Base64.encodeBase64String("qqq:www".getBytes());
+        String nonce = Base64.encodeBase64String("1:q".getBytes(StandardCharsets.UTF_8));
+        String noTsNonce = Base64.encodeBase64String("qqq".getBytes(StandardCharsets.UTF_8));
+        String wrongTsNonce = Base64.encodeBase64String("qqq:www".getBytes(StandardCharsets.UTF_8));
 
         return Stream.of(
                 Arguments.of("", DigestMissingException.class, "Authorization header is missing"),
