@@ -36,6 +36,8 @@ public enum ErrorCode {
     EEC_TERMINAL_COUNTERS_EXCEEDED(1014),
     @SerializedName("1015")
     EEC_HSM_TOKEN(1015),
+    @SerializedName("1016")
+    EEC_HSM_DATA_EXPIRED(1016),
     @SerializedName("1100")
     EEC_INPUT_VALIDATION_FAILED(1100),
     @SerializedName("1101")
