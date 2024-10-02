@@ -1,3 +1,7 @@
+##### Version 2.0.1 (2024-10-02)
+
+	Add crypto data expired error code
+
 ##### Version 2.0.0 (2023-11-09)
 
 	Remove support for Java 8
