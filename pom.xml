@@ -6,7 +6,7 @@
 
     <groupId>com.github.transactpro</groupId>
     <artifactId>gateway</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 
     <name>Transact Pro Gateway v3 Java client library</name>
     <description>A library that provide ability to make requests to Transact Pro Gateway API v3.</description>
@@ -36,6 +36,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.release>11</maven.release>
+        <lombok.version>1.18.42</lombok.version>
     </properties>
 
     <distributionManagement>
@@ -53,10 +55,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.14.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>${maven.release}</release>
+                    <annotationsProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationsProcessorPaths>
+                    <compilerArgs>
+                        <arg>-proc:full</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -94,7 +104,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <source>1.8</source>
+                            <source>11</source>
                         </configuration>
                     </execution>
                 </executions>
@@ -147,7 +157,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.7.0</version>
+            <version>5.20.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -179,7 +189,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

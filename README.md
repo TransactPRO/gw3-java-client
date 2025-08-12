@@ -12,14 +12,14 @@ This library provide ability to make requests to Transact Pro Gateway API v3.
 <dependency>
   <groupId>com.github.transactpro</groupId>
   <artifactId>gateway</artifactId>
-  <version>2.0.1</version>
+  <version>2.0.2</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-implementation 'com.github.transactpro:gateway:2.0.1'
+implementation 'com.github.transactpro:gateway:2.0.2'
 ```
 
 ## Documentation
@@ -212,6 +212,37 @@ Command command = new Command()
         .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_GATEWAY_SAVED_CARDHOLDER_INITIATED)
         .setPaymentMethodDataToken("<initial gateway-transaction-id>");
 sms.setCommand(command);
+```
+
+### Using alternative payment methods
+
+To use an alternative payment method (like Google Pay), send a received token AS-IS or data from a decrypted token.
+
+```java
+// set a corresponding flag that indicates a token provider
+Command command = new Command().setPaymentMethodType(PaymentMethodType.PAYMENT_METHOD_TYPE_GOOGLE_PAY);
+operation.setCommand(command);
+
+// option 1: send received token AS-IS
+PaymentMethod paymentMethod = new PaymentMethod().setToken('<token>');
+operation.setPayment(paymentMethod);
+
+// option 2: send data from decrypted token
+ExternalTokenData externalTokenData = new ExternalTokenData()
+        .setCryptogram("<cryptogram from token>") // if available
+        .setEci("<ECI from token>") // if available
+        .setTransStatus("<transStatus from token>") // available for Click to Pay
+        .setDsTransId("<dsTransId from token>") // available for Click to Pay
+        .setAcsTransId("<acsTransId from token>") // available for Click to Pay
+        .setCardHolderAuthenticated(decryptedToken.paymentMethodDetails.assuranceDetails.cardHolderAuthenticated); // for Google Pay
+
+PaymentMethod paymentMethod = new PaymentMethod()
+        .setPan("<card number>")
+        .setExpMmYy("<card expiry>")
+        .setCardHolderName("<cardholder name>") // if available
+        .setExternalTokenData(externalTokenData);
+
+operation.setPayment(paymentMethod);
 ```
 
 ### Callback validation

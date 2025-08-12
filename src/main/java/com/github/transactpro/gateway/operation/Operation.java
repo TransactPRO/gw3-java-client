@@ -2,10 +2,12 @@ package com.github.transactpro.gateway.operation;
 
 import com.github.transactpro.gateway.adapters.CardVerificationModeSerializer;
 import com.github.transactpro.gateway.adapters.PaymentMethodDataSourceSerializer;
+import com.github.transactpro.gateway.adapters.PaymentMethodTypeSerializer;
 import com.github.transactpro.gateway.model.Request;
 import com.github.transactpro.gateway.model.Response;
 import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
+import com.github.transactpro.gateway.model.request.data.command.PaymentMethodType;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +23,7 @@ public abstract class Operation<ResponseT> implements Operable {
     @Getter
     protected String requestUri;
 
+    @Getter
     protected Request request;
     protected Class<ResponseT> responseType;
     @Getter
@@ -41,15 +44,12 @@ public abstract class Operation<ResponseT> implements Operable {
         return new Request();
     }
 
-    public Request getRequest() {
-        return request;
-    }
-
     protected Gson buildJsonParser() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
                 .registerTypeAdapter(CardVerificationMode.class, new CardVerificationModeSerializer())
                 .registerTypeAdapter(PaymentMethodDataSource.class, new PaymentMethodDataSourceSerializer())
+                .registerTypeAdapter(PaymentMethodType.class, new PaymentMethodTypeSerializer())
                 .create();
     }
 
