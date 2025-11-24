@@ -1,3 +1,7 @@
+##### Version 2.0.2 (2025-11-24)
+
+	Add alternative payment methods support (like Google Pay)
+
 ##### Version 2.0.1 (2024-10-02)
 
 	Add crypto data expired error code
