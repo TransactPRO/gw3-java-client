@@ -33,6 +33,7 @@ public class Gateway {
     private String url;
     @Getter
     private final Authorization authorization;
+    @Setter
     private CloseableHttpClient httpClient;
     private Validator validator;
 

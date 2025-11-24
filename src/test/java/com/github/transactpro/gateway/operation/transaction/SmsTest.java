@@ -8,10 +8,12 @@ import com.github.transactpro.gateway.model.request.data.PaymentMethod;
 import com.github.transactpro.gateway.model.request.data.System;
 import com.github.transactpro.gateway.model.request.data.command.CardVerificationMode;
 import com.github.transactpro.gateway.model.request.data.command.PaymentMethodDataSource;
+import com.github.transactpro.gateway.model.request.data.command.PaymentMethodType;
 import com.github.transactpro.gateway.model.request.data.general.Customer;
 import com.github.transactpro.gateway.model.request.data.general.Order;
 import com.github.transactpro.gateway.model.request.data.general.customer.Address;
 import com.github.transactpro.gateway.model.request.data.payment.ExternalMPIData;
+import com.github.transactpro.gateway.model.request.data.payment.ExternalTokenData;
 import com.github.transactpro.gateway.model.response.PaymentResponse;
 import com.github.transactpro.gateway.model.response.constants.ErrorCode;
 import com.github.transactpro.gateway.model.response.constants.Status;
@@ -75,7 +77,8 @@ class SmsTest {
         Command command = new Command()
                 .setCardVerification(CardVerificationMode.VERIFY)
                 .setPaymentMethodDataSource(PaymentMethodDataSource.DATA_SOURCE_USE_MERCHANT_SAVED_CARDHOLDER_INITIATED)
-                .setPaymentMethodDataToken("some-test-id");
+                .setPaymentMethodDataToken("some-test-id")
+                .setPaymentMethodType(PaymentMethodType.PAYMENT_METHOD_TYPE_GOOGLE_PAY);
 
         Address address = new Address()
                 .setCity("Chalon-sur-Saône")
@@ -136,12 +139,21 @@ class SmsTest {
                 .setCavv("kBMI/uGZvlKCygBkcQIlLJeBTPLG")
                 .setTransStatus("Y");
 
+        ExternalTokenData externalTokenData = new ExternalTokenData()
+                .setCryptogram("AAMI/uGZvlKCygBkcQIlLJeBTPLG")
+                .setEci("05")
+                .setTransStatus("Y")
+                .setDsTransID("ad7d1791-11d4-45da-aa16-077cd8f6935c")
+                .setAcsTransID("be65a56e-66dc-448e-8f38-d78ee70cc6c9")
+                .setCardHolderAuthenticated(true);
+
         PaymentMethod paymentMethod = new PaymentMethod()
                 .setCardholderName("John Smith")
                 .setCvv("000")
                 .setExpMmYy("12/18")
                 .setPan("0000000000000000")
-                .setExternalMpiData(externalMpiData);
+                .setExternalMpiData(externalMpiData)
+                .setExternalTokenData(externalTokenData);
 
         operation.setCommand(command)
                 .setCustomer(customer)
