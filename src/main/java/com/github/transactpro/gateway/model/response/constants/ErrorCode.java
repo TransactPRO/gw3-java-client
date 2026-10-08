@@ -96,6 +96,8 @@ public enum ErrorCode {
     EEC_TERMINAL_NOT_SUPPORTING_MOTO(1204),
     @SerializedName("1205")
     EEC_TERMINAL_NOT_SUPPORTING_RECURRENTS(1205),
+    @SerializedName("1206")
+    EEC_TERMINAL_LOCKED(1206),
     @SerializedName("1301")
     EEC_DECLINED_BY_ACQUIRER(1301),
     @SerializedName("1302")
