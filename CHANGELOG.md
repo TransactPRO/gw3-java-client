@@ -1,3 +1,9 @@
+##### Version 2.0.3 (2026-10-09)
+
+	Add CAVV to external token fields
+	Bump org.apache.httpcomponents.client5:httpclient5 from 5.2.1 to 5.6.3
+	Add new error code 1206
+
 ##### Version 2.0.2 (2025-11-24)
 
 	Add alternative payment methods support (like Google Pay)
