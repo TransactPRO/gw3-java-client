@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 public class ExternalTokenData {
     private String cryptogram;
     private String eci;
+    private String cavv;
     @SerializedName("transStatus")
     private String transStatus;
     @SerializedName("dsTransID")
